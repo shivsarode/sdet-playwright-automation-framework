@@ -1,0 +1,18 @@
+{
+  "name": "sdet-playwright-automation-framework",
+  "version": "1.0.0",
+  "description": "Scalable End-to-End Test Automation Framework built using Playwright with Cucumber (BDD) approach.",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js --require step-definitions/**/*.js",
+    "test:headed": "cucumber-js --require step-definitions/**/*.js",
+    "test:report": "cucumber-js --format progress"
+  },
+  "keywords": [],
+  "author": "Shivam Sarode",
+  "license": "ISC",
+  "dependencies": {
+    "@cucumber/cucumber": "^12.8.0",
+    "@playwright/test": "^1.59.1"
+  }
+}
