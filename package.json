@@ -4,9 +4,9 @@
   "description": "Scalable End-to-End Test Automation Framework built using Playwright with Cucumber (BDD) approach.",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js --require step-definitions/**/*.js",
-    "test:headed": "cucumber-js --require step-definitions/**/*.js",
-    "test:report": "cucumber-js --format progress"
+    "test": "cucumber-js --require ./step-definitions/**/*.js --require ./hooks/**/*.js",
+    "test:headed": "cucumber-js --require ./step-definitions/**/*.js --require ./hooks/**/*.js",
+    "test:report": "cucumber-js --require ./step-definitions/**/*.js --require ./hooks/**/*.js --format progress"
   },
   "keywords": [],
   "author": "Shivam Sarode",
