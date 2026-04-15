@@ -31,7 +31,6 @@ class SignupPage {
     this.createAccountBtn = '[data-qa="create-account"]';
     this.continueBtn = '[data-qa="continue-button"]';
 
-    //  IMPORTANT ASSERT LOCATOR
     this.accountCreatedText = 'text=Account Created!';
   }
 
@@ -64,13 +63,13 @@ class SignupPage {
 
     await elementUtils.click(this.page, this.createAccountBtn);
 
-    //  WAIT + ASSERT (REAL VALIDATION )
+    // ✅ Validation
     await waitUtils.waitForElement(this.page, this.accountCreatedText);
     await assertUtils.verifyVisible(this.page, this.accountCreatedText);
 
     await elementUtils.click(this.page, this.continueBtn);
 
-    // 📸 screenshot
+    // 📸 Screenshot
     await screenshotUtils.takeScreenshot(this.page, 'signup_success');
   }
 }

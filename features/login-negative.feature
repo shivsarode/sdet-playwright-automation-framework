@@ -5,5 +5,4 @@ Scenario: User tries to login with wrong credentials
 Given user navigates to the application
 When user navigates to login screen
 And user submits incorrect email and password
-And user attempts to login
 Then system should display authentication error message

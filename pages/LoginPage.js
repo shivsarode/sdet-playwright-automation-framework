@@ -30,28 +30,17 @@ class LoginPage {
     await elementUtils.click(this.page, this.logoutBtn);
   }
 
-  async verifyLogin() {
+  async verifyLoginSuccess() {
     await waitUtils.waitForElement(this.page, this.loggedText);
     await assertUtils.verifyVisible(this.page, this.loggedText);
 
-    // 📸 screenshot on success
     await screenshotUtils.takeScreenshot(this.page, 'login_success');
   }
 
-  async enterInvalidCredentials(email, password) {
-    await elementUtils.type(this.page, this.email, email);
-    await elementUtils.type(this.page, this.password, password);
-  }
-
-  async clickLogin() {
-    await elementUtils.click(this.page, this.loginBtn);
-  }
-
-  async verifyErrorMessage() {
+  async verifyLoginError() {
     await waitUtils.waitForElement(this.page, this.errorText);
     await assertUtils.verifyVisible(this.page, this.errorText);
 
-    // 📸 screenshot on error
     await screenshotUtils.takeScreenshot(this.page, 'login_error');
   }
 }

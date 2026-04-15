@@ -1,41 +1,33 @@
 const { Given, When, Then, setDefaultTimeout } = require('@cucumber/cucumber');
-const { chromium } = require('playwright');
+const LoginPage = require('../pages/LoginPage');
+const { baseURL } = require('../config/env');
+const data = require('../test-data/loginData.json');
 
 setDefaultTimeout(60000);
 
-let browser, page;
-
-// invalid credentials
-const invalidEmail = `wrong${Date.now()}@mail.com`;
-const invalidPassword = "WrongPass@123";
+let loginPage;
 
 // OPEN APP
 Given('user navigates to the application', async function () {
-  browser = await chromium.launch({ headless: true });
-  page = await browser.newPage();
-  await page.goto('https://automationexercise.com');
+  await this.page.goto(baseURL);
+  loginPage = new LoginPage(this.page);
 });
 
 // GO TO LOGIN PAGE
 When('user navigates to login screen', async function () {
-  await page.click('a[href="/login"]');
+  await loginPage.openLogin();
 });
 
 // ENTER WRONG CREDENTIALS
 When('user submits incorrect email and password', async function () {
-  await page.fill('[data-qa="login-email"]', invalidEmail);
-  await page.fill('[data-qa="login-password"]', invalidPassword);
-});
-
-// CLICK LOGIN
-When('user attempts to login', async function () {
-  await page.click('[data-qa="login-button"]');
+  await loginPage.login(
+    data.invalidUser.email,
+    data.invalidUser.password
+  );
 });
 
 // VERIFY ERROR
 Then('system should display authentication error message', async function () {
-  await page.waitForSelector('text=Your email or password is incorrect!');
+  await loginPage.verifyLoginError();
   console.log("🔥 ERROR MESSAGE VERIFIED");
-
-  await browser.close();
 });

@@ -1,6 +1,7 @@
 const { Given, When, Then, setDefaultTimeout } = require('@cucumber/cucumber');
 const SignupPage = require('../pages/SignupPage');
 const LoginPage = require('../pages/LoginPage');
+const { baseURL } = require('../config/env');
 
 setDefaultTimeout(60000);
 
@@ -11,7 +12,7 @@ const email = `shivam${Date.now()}@mail.com`;
 const password = "Test@123";
 
 Given('user opens website', async function () {
-  await this.page.goto('https://automationexercise.com');
+  await this.page.goto(baseURL);
 
   signupPage = new SignupPage(this.page);
   loginPage = new LoginPage(this.page);
@@ -36,6 +37,6 @@ When('user logs in with same credentials', async function () {
 });
 
 Then('user should be logged in successfully', async function () {
-  await loginPage.verifyLogin();
+  await loginPage.verifyLoginSuccess();  // 🔥 updated method
   console.log("🔥 LOGIN SUCCESSFUL");
 });
