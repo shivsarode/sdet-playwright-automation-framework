@@ -1,3 +1,8 @@
+const elementUtils = require('../utils/elementUtils');
+const waitUtils = require('../utils/waitUtils');
+const assertUtils = require('../utils/assertUtils');
+const screenshotUtils = require('../utils/screenshotUtils');
+
 class LoginPage {
   constructor(page) {
     this.page = page;
@@ -12,34 +17,42 @@ class LoginPage {
   }
 
   async openLogin() {
-    await this.page.click(this.loginLink);
+    await elementUtils.click(this.page, this.loginLink);
   }
 
   async login(email, password) {
-    await this.page.fill(this.email, email);
-    await this.page.fill(this.password, password);
-    await this.page.click(this.loginBtn);
+    await elementUtils.type(this.page, this.email, email);
+    await elementUtils.type(this.page, this.password, password);
+    await elementUtils.click(this.page, this.loginBtn);
   }
 
   async logout() {
-    await this.page.click(this.logoutBtn);
+    await elementUtils.click(this.page, this.logoutBtn);
   }
 
   async verifyLogin() {
-    await this.page.waitForSelector(this.loggedText);
+    await waitUtils.waitForElement(this.page, this.loggedText);
+    await assertUtils.verifyVisible(this.page, this.loggedText);
+
+    // 📸 screenshot on success
+    await screenshotUtils.takeScreenshot(this.page, 'login_success');
   }
 
   async enterInvalidCredentials(email, password) {
-    await this.page.fill(this.email, email);
-    await this.page.fill(this.password, password);
+    await elementUtils.type(this.page, this.email, email);
+    await elementUtils.type(this.page, this.password, password);
   }
 
   async clickLogin() {
-    await this.page.click(this.loginBtn);
+    await elementUtils.click(this.page, this.loginBtn);
   }
 
   async verifyErrorMessage() {
-    await this.page.waitForSelector(this.errorText);
+    await waitUtils.waitForElement(this.page, this.errorText);
+    await assertUtils.verifyVisible(this.page, this.errorText);
+
+    // 📸 screenshot on error
+    await screenshotUtils.takeScreenshot(this.page, 'login_error');
   }
 }
 

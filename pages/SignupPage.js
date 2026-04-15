@@ -1,3 +1,8 @@
+const elementUtils = require('../utils/elementUtils');
+const waitUtils = require('../utils/waitUtils');
+const screenshotUtils = require('../utils/screenshotUtils');
+const assertUtils = require('../utils/assertUtils');
+
 class SignupPage {
   constructor(page) {
     this.page = page;
@@ -25,37 +30,48 @@ class SignupPage {
 
     this.createAccountBtn = '[data-qa="create-account"]';
     this.continueBtn = '[data-qa="continue-button"]';
+
+    //  IMPORTANT ASSERT LOCATOR
+    this.accountCreatedText = 'text=Account Created!';
   }
 
   async openLogin() {
-    await this.page.click(this.loginLink);
+    await elementUtils.click(this.page, this.loginLink);
   }
 
   async signup(name, email) {
-    await this.page.fill(this.signupName, name);
-    await this.page.fill(this.signupEmail, email);
-    await this.page.click(this.signupBtn);
+    await elementUtils.type(this.page, this.signupName, name);
+    await elementUtils.type(this.page, this.signupEmail, email);
+    await elementUtils.click(this.page, this.signupBtn);
   }
 
   async fillAccountDetails(password) {
-    await this.page.click(this.gender);
-    await this.page.fill(this.password, password);
+    await elementUtils.click(this.page, this.gender);
+    await elementUtils.type(this.page, this.password, password);
 
     await this.page.selectOption(this.days, '10');
     await this.page.selectOption(this.months, '5');
     await this.page.selectOption(this.years, '1995');
 
-    await this.page.fill(this.firstName, 'Shivam');
-    await this.page.fill(this.lastName, 'Sarode');
-    await this.page.fill(this.address, 'Pune');
+    await elementUtils.type(this.page, this.firstName, 'Shivam');
+    await elementUtils.type(this.page, this.lastName, 'Sarode');
+    await elementUtils.type(this.page, this.address, 'Pune');
     await this.page.selectOption(this.country, 'India');
-    await this.page.fill(this.state, 'MH');
-    await this.page.fill(this.city, 'Pune');
-    await this.page.fill(this.zipcode, '411001');
-    await this.page.fill(this.mobile, '9999999999');
+    await elementUtils.type(this.page, this.state, 'MH');
+    await elementUtils.type(this.page, this.city, 'Pune');
+    await elementUtils.type(this.page, this.zipcode, '411001');
+    await elementUtils.type(this.page, this.mobile, '9999999999');
 
-    await this.page.click(this.createAccountBtn);
-    await this.page.click(this.continueBtn);
+    await elementUtils.click(this.page, this.createAccountBtn);
+
+    //  WAIT + ASSERT (REAL VALIDATION )
+    await waitUtils.waitForElement(this.page, this.accountCreatedText);
+    await assertUtils.verifyVisible(this.page, this.accountCreatedText);
+
+    await elementUtils.click(this.page, this.continueBtn);
+
+    // 📸 screenshot
+    await screenshotUtils.takeScreenshot(this.page, 'signup_success');
   }
 }
 
