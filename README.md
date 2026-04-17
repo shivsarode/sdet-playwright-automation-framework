@@ -1,5 +1,9 @@
 # 🚀 SDET Playwright Automation Framework
 
+![Playwright](https://img.shields.io/badge/Playwright-Automation-green)
+![Cucumber](https://img.shields.io/badge/Cucumber-BDD-brightgreen)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
+
 ## 🧠 Overview
 
 A scalable and robust End-to-End Test Automation Framework built using Playwright with a Cucumber (BDD) approach.
