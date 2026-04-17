@@ -1,55 +1,97 @@
-🚀 SDET Playwright Automation Framework
-🧠 Overview
+# 🚀 SDET Playwright Automation Framework
+
+## 🧠 Overview
 
 A scalable and robust End-to-End Test Automation Framework built using Playwright with a Cucumber (BDD) approach.
-This framework follows real-world practices focusing on clean architecture, reusability, and maintainability.
 
-🚧 Currently under development – upcoming features include API automation, CI/CD, and reporting.
+This framework is designed using real-world industry standards focusing on:
 
-🛠 Tech Stack
-Playwright – UI Automation
-Cucumber (BDD) – Behavior-driven testing
-JavaScript (ES6) – Core language
-Node.js – Runtime
+- Clean architecture  
+- Reusability  
+- Maintainability  
+- Debuggability (Screenshots, Video, Trace)  
 
-⚙️ Framework Highlights
-Page Object Model (POM) for scalability
-Reusable Utility Layer (actions, waits, assertions, screenshots)
-BDD approach for readable test scenarios
-Automatic Screenshot Capture
-Clean and maintainable code structure
-Separation of concerns (Steps vs Implementation)
+🚧 Currently under active development with CI/CD and API automation enhancements planned.
 
-🧪 Implemented Test Coverage
-User Registration (Signup Flow)
-Login (Valid & Invalid Scenarios)
-UI Validations using Assertions
-Screenshot Capture
+---
 
-▶️ Execution
+## 🛠 Tech Stack
 
-Run tests using: npm test
+- 🎭 Playwright – UI Automation  
+- 🥒 Cucumber (BDD) – Behavior Driven Testing  
+- 🟨 JavaScript (ES6+) – Core Language  
+- 🟢 Node.js – Runtime Environment  
 
-📸 Reporting
-Screenshots captured automatically
-Stored in:
+---
+
+## ⚙️ Framework Architecture
+
+- 🧱 Page Object Model (POM) Design Pattern  
+- ♻️ Reusable Utility Layer (Actions, Waits, Assertions)  
+- 🧪 BDD Feature Files for readable scenarios  
+- 📂 Clean separation of layers (Pages / Steps / Hooks / Utils)  
+- 🧩 Hooks for setup & teardown  
+
+---
+
+## 🔥 Debugging Features
+
+- 📸 Automatic Screenshot Capture on Failure  
+- 🎥 Video Recording for each test execution  
+- 🔍 Playwright Trace Viewer Integration  
+- 📊 HTML Reporting using Cucumber HTML Reporter  
+
+---
+
+## 🧪 Test Coverage
+
+- ✅ User Registration (Signup Flow)  
+- ✅ Login (Valid & Invalid Scenarios)  
+- ✅ UI Validations using Assertions  
+- ✅ Functional Flow Testing  
+
+---
+
+## ▶️ Execution
+
+### Run all tests
+npm test
+
+Run tests with report:
+npm run test:report
+
+Run in headed mode (UI visible)
+npm run test:headed
+
+📊 Reports
+HTML Report
+reports/cucumber-report.html
+Screenshots
 reports/screenshots/
+Videos
+reports/videos/
+Trace
+reports/trace/
+
+🚀 Key Highlights
+✔ Scalable framework structure
+✔ Cross-browser support (Chromium, Firefox, WebKit)
+✔ Debug-friendly execution (Trace + Video + Screenshot)
+✔ CI/CD ready architecture
+✔ Industry-standard BDD approach
 
 🚀 Upcoming Enhancements
-Product → Add to Cart → Checkout flow
-Allure reporting
-API + UI integration
-CI/CD (GitHub Actions)
-Parallel execution
-
-💡 About the Project
-
-This project demonstrates a real-world SDET approach, focusing on building a scalable and maintainable automation framework.
+🛒 E-commerce flow (Add to Cart → Checkout)
+🔌 API Automation Integration
+📊 Allure Reporting
+⚙️ CI/CD Pipeline (GitHub Actions / Jenkins)
+⚡ Parallel Execution Support
+🧠 Test Data Management Strategy
 
 👨‍💻 Author
-
 Shivam Sarode
-QA Automation Engineer | SDET | Playwright | Selenium
+QA Automation Engineer | SDET
+Playwright | Selenium | JavaScript | API Testing
 
 ⭐ Note
 
