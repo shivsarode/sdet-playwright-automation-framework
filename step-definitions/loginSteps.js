@@ -7,8 +7,8 @@ setDefaultTimeout(60000);
 
 let signupPage, loginPage;
 
-// dynamic data
-const email = `shivam${Date.now()}@mail.com`;
+// dynamic data (declared first, assigned later)
+let email;
 const password = "Test@123";
 
 Given('user opens website', async function () {
@@ -16,6 +16,9 @@ Given('user opens website', async function () {
 
   signupPage = new SignupPage(this.page);
   loginPage = new LoginPage(this.page);
+
+  // assign dynamic email here (better control + per scenario freshness)
+  email = `shivam${Date.now()}@mail.com`;
 });
 
 When('user signs up with new email', async function () {
@@ -37,6 +40,6 @@ When('user logs in with same credentials', async function () {
 });
 
 Then('user should be logged in successfully', async function () {
-  await loginPage.verifyLoginSuccess();  // 🔥 updated method
+  await loginPage.verifyLoginSuccess();
   console.log("🔥 LOGIN SUCCESSFUL");
 });

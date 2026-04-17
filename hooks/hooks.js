@@ -6,29 +6,24 @@ let browser;
 Before(async function () {
   const browserType = process.env.BROWSER || "chromium";
 
-  const browserLaunchers = {
-    chromium,
-    firefox,
-    webkit
-  };
+  if (browserType === "firefox") {
+    browser = await firefox.launch({ headless: false });
+  } else if (browserType === "webkit") {
+    browser = await webkit.launch({ headless: false });
+  } else {
+    browser = await chromium.launch({ headless: false });
+  }
 
-  const launch = browserLaunchers[browserType];
-
-  browser = await launch.launch({ headless: false });
-
-  const context = await browser.newContext();
-  this.page = await context.newPage();
-
-  console.log(`🚀 Running tests on: ${browserType}`);
+  this.context = await browser.newContext();
+  this.page = await this.context.newPage();
 });
 
 After(async function (scenario) {
-  if (scenario.result?.status === "FAILED") {
-    await this.page.screenshot({
-      path: `reports/screenshots/${scenario.pickle.name}.png`,
-      fullPage: true
-    });
+  if (scenario.result.status === "FAILED") {
+    await this.page.screenshot({ path: "reports/failure.png" });
   }
 
+  await this.page.close();
+  await this.context.close();
   await browser.close();
 });
