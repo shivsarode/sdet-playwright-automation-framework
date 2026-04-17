@@ -1,9 +1,9 @@
 module.exports = {
   default: {
-    require: ["step-definitions/*.js", "hooks/*.js"],
+    require: ['step-definitions/*.js', 'hooks/*.js'],
     format: [
-      "progress",
-      "html:reports/html-report/report.html"
+      'progress',
+      'json:reports/cucumber-report.json'
     ],
     parallel: 2
   }

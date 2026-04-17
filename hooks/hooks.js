@@ -1,29 +1,64 @@
-const { Before, After } = require("@cucumber/cucumber");
+const { Before, After, BeforeAll, AfterAll } = require("@cucumber/cucumber");
 const { chromium, firefox, webkit } = require("playwright");
 
 let browser;
 
-Before(async function () {
+// 🔥 TOGGLES (env based)
+const isVideo = process.env.VIDEO === "true";
+const isTrace = process.env.TRACE === "true";
+const isScreenshot = process.env.SCREENSHOT === "true";
+
+BeforeAll(async function () {
   const browserType = process.env.BROWSER || "chromium";
 
+  const launchOptions = {
+    headless: false,
+    slowMo: 500
+  };
+
   if (browserType === "firefox") {
-    browser = await firefox.launch({ headless: false });
+    browser = await firefox.launch(launchOptions);
   } else if (browserType === "webkit") {
-    browser = await webkit.launch({ headless: false });
+    browser = await webkit.launch(launchOptions);
   } else {
-    browser = await chromium.launch({ headless: false });
+    browser = await chromium.launch(launchOptions);
+  }
+});
+
+Before(async function () {
+  this.context = await browser.newContext({
+    ...(isVideo && { recordVideo: { dir: "reports/videos/" } }),
+    viewport: null
+  });
+
+  if (isTrace) {
+    await this.context.tracing.start({
+      screenshots: true,
+      snapshots: true
+    });
   }
 
-  this.context = await browser.newContext();
   this.page = await this.context.newPage();
 });
 
 After(async function (scenario) {
-  if (scenario.result.status === "FAILED") {
-    await this.page.screenshot({ path: "reports/failure.png" });
+  const scenarioName = scenario.pickle.name.replace(/[^a-zA-Z0-9]/g, "_");
+
+  if (isScreenshot && scenario.result.status === "FAILED") {
+    const screenshot = await this.page.screenshot();
+    await this.attach(screenshot, "image/png");
+  }
+
+  if (isTrace) {
+    await this.context.tracing.stop({
+      path: `reports/trace/${scenarioName}.zip`
+    });
   }
 
   await this.page.close();
   await this.context.close();
+});
+
+AfterAll(async function () {
   await browser.close();
 });

@@ -1,0 +1,298 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "add-to-cart-feature;user-adds-product-to-cart",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "User adds product to cart",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 108226599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "user opens automation exercise website",
+            "match": {
+              "location": "step-definitions\\addToCart.steps.js:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5395052600
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "user navigates to products page",
+            "match": {
+              "location": "step-definitions\\addToCart.steps.js:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1009782700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "user adds first product to cart",
+            "match": {
+              "location": "step-definitions\\addToCart.steps.js:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 551132700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "product should be added to cart successfully",
+            "match": {
+              "location": "step-definitions\\addToCart.steps.js:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1108189199
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 29790200
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "add-to-cart-feature",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Add to Cart Feature",
+    "tags": [],
+    "uri": "features\\addToCart.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "invalid-login-validation-flow;user-tries-to-login-with-wrong-credentials",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "User tries to login with wrong credentials",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 126706299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "user navigates to the application",
+            "match": {
+              "location": "step-definitions\\login-negative.steps.js:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 7179863399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "user navigates to login screen",
+            "match": {
+              "location": "step-definitions\\login-negative.steps.js:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 982240200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "user submits incorrect email and password",
+            "match": {
+              "location": "step-definitions\\login-negative.steps.js:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2048401099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "system should display authentication error message",
+            "match": {
+              "location": "step-definitions\\login-negative.steps.js:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 99305099
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 21330500
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "invalid-login-validation-flow",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Invalid Login Validation Flow",
+    "tags": [],
+    "uri": "features\\login-negative.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "register-and-login-flow;user-registration-and-login-flow",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "User registration and login flow",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 94715800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "user opens website",
+            "match": {
+              "location": "step-definitions\\loginSteps.js:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4031211899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "user signs up with new email",
+            "match": {
+              "location": "step-definitions\\loginSteps.js:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3022664599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "user creates account",
+            "match": {
+              "location": "step-definitions\\loginSteps.js:29"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 10283560700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "user logs out",
+            "match": {
+              "location": "step-definitions\\loginSteps.js:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1371159500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "user logs in with same credentials",
+            "match": {
+              "location": "step-definitions\\loginSteps.js:37"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3666442699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "user should be logged in successfully",
+            "match": {
+              "location": "step-definitions\\loginSteps.js:42"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 453337599
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 34300600
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "register-and-login-flow",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Register and Login Flow",
+    "tags": [],
+    "uri": "features\\login.feature"
+  }
+]
