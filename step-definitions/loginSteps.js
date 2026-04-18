@@ -1,23 +1,22 @@
 const { Given, When, Then, setDefaultTimeout } = require('@cucumber/cucumber');
 const SignupPage = require('../pages/SignupPage');
 const LoginPage = require('../pages/LoginPage');
-const { baseURL } = require('../config/env');
+const { loadFixture } = require('../utils/fixtureLoader');
 
 setDefaultTimeout(60000);
 
 let signupPage, loginPage;
-
-// dynamic data (declared first, assigned later)
 let email;
 const password = "Test@123";
+let config;
 
 Given('user opens website', async function () {
-  await this.page.goto(baseURL);
+  config = loadFixture("config.json");
+  await this.page.goto(config.baseUrl);
 
   signupPage = new SignupPage(this.page);
   loginPage = new LoginPage(this.page);
 
-  // assign dynamic email here (better control + per scenario freshness)
   email = `shivam${Date.now()}@mail.com`;
 });
 

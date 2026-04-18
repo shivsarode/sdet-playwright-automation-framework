@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 108226599
+              "duration": 214310799
             }
           },
           {
@@ -23,11 +23,11 @@
             "line": 4,
             "name": "user opens automation exercise website",
             "match": {
-              "location": "step-definitions\\addToCart.steps.js:6"
+              "location": "step-definitions\\addToCart.steps.js:11"
             },
             "result": {
               "status": "passed",
-              "duration": 5395052600
+              "duration": 5052726300
             }
           },
           {
@@ -36,11 +36,11 @@
             "line": 5,
             "name": "user navigates to products page",
             "match": {
-              "location": "step-definitions\\addToCart.steps.js:11"
+              "location": "step-definitions\\addToCart.steps.js:16"
             },
             "result": {
               "status": "passed",
-              "duration": 1009782700
+              "duration": 1070467900
             }
           },
           {
@@ -49,11 +49,11 @@
             "line": 6,
             "name": "user adds first product to cart",
             "match": {
-              "location": "step-definitions\\addToCart.steps.js:15"
+              "location": "step-definitions\\addToCart.steps.js:20"
             },
             "result": {
               "status": "passed",
-              "duration": 551132700
+              "duration": 1228316300
             }
           },
           {
@@ -62,11 +62,11 @@
             "line": 7,
             "name": "product should be added to cart successfully",
             "match": {
-              "location": "step-definitions\\addToCart.steps.js:19"
+              "location": "step-definitions\\addToCart.steps.js:24"
             },
             "result": {
               "status": "passed",
-              "duration": 1108189199
+              "duration": 1084172199
             }
           },
           {
@@ -74,7 +74,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 29790200
+              "duration": 57997900
             }
           }
         ],
@@ -104,7 +104,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 126706299
+              "duration": 168265900
             }
           },
           {
@@ -113,11 +113,11 @@
             "line": 5,
             "name": "user navigates to the application",
             "match": {
-              "location": "step-definitions\\login-negative.steps.js:11"
+              "location": "step-definitions\\login-negative.steps.js:12"
             },
             "result": {
               "status": "passed",
-              "duration": 7179863399
+              "duration": 4113966899
             }
           },
           {
@@ -130,7 +130,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 982240200
+              "duration": 853683699
             }
           },
           {
@@ -139,11 +139,11 @@
             "line": 7,
             "name": "user submits incorrect email and password",
             "match": {
-              "location": "step-definitions\\login-negative.steps.js:22"
+              "location": "step-definitions\\login-negative.steps.js:21"
             },
             "result": {
               "status": "passed",
-              "duration": 2048401099
+              "duration": 1458613399
             }
           },
           {
@@ -152,11 +152,11 @@
             "line": 8,
             "name": "system should display authentication error message",
             "match": {
-              "location": "step-definitions\\login-negative.steps.js:30"
+              "location": "step-definitions\\login-negative.steps.js:28"
             },
             "result": {
               "status": "passed",
-              "duration": 99305099
+              "duration": 184215599
             }
           },
           {
@@ -164,7 +164,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 21330500
+              "duration": 50336999
             }
           }
         ],
@@ -194,7 +194,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 94715800
+              "duration": 142078799
             }
           },
           {
@@ -203,11 +203,11 @@
             "line": 5,
             "name": "user opens website",
             "match": {
-              "location": "step-definitions\\loginSteps.js:14"
+              "location": "step-definitions\\loginSteps.js:13"
             },
             "result": {
               "status": "passed",
-              "duration": 4031211899
+              "duration": 3487443599
             }
           },
           {
@@ -216,11 +216,11 @@
             "line": 6,
             "name": "user signs up with new email",
             "match": {
-              "location": "step-definitions\\loginSteps.js:24"
+              "location": "step-definitions\\loginSteps.js:23"
             },
             "result": {
               "status": "passed",
-              "duration": 3022664599
+              "duration": 2363130499
             }
           },
           {
@@ -229,11 +229,11 @@
             "line": 7,
             "name": "user creates account",
             "match": {
-              "location": "step-definitions\\loginSteps.js:29"
+              "location": "step-definitions\\loginSteps.js:28"
             },
             "result": {
               "status": "passed",
-              "duration": 10283560700
+              "duration": 8781708900
             }
           },
           {
@@ -242,11 +242,11 @@
             "line": 8,
             "name": "user logs out",
             "match": {
-              "location": "step-definitions\\loginSteps.js:33"
+              "location": "step-definitions\\loginSteps.js:32"
             },
             "result": {
               "status": "passed",
-              "duration": 1371159500
+              "duration": 1435042300
             }
           },
           {
@@ -255,11 +255,11 @@
             "line": 9,
             "name": "user logs in with same credentials",
             "match": {
-              "location": "step-definitions\\loginSteps.js:37"
+              "location": "step-definitions\\loginSteps.js:36"
             },
             "result": {
               "status": "passed",
-              "duration": 3666442699
+              "duration": 3564619199
             }
           },
           {
@@ -268,11 +268,11 @@
             "line": 10,
             "name": "user should be logged in successfully",
             "match": {
-              "location": "step-definitions\\loginSteps.js:42"
+              "location": "step-definitions\\loginSteps.js:41"
             },
             "result": {
               "status": "passed",
-              "duration": 453337599
+              "duration": 513582599
             }
           },
           {
@@ -280,7 +280,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 34300600
+              "duration": 37063200
             }
           }
         ],
