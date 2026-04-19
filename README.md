@@ -59,44 +59,72 @@ This framework is designed using real-world industry standards focusing on:
 ## ▶️ Execution
 
 ### Run all tests
+
 npm test
 
-Run tests with report:
+### Run tests with report
+
 npm run test:report
 
-Run in headed mode (UI visible)
+### Run in headed mode (UI visible)
+
 npm run test:headed
 
-📊 Reports
+### Run with environment toggles (PowerShell)
+
+Enable Video:
+$env:VIDEO="true"; npm test
+
+Enable Trace:
+$env:TRACE="true"; npm test
+
+Enable Screenshot (on failure):
+$env:SCREENSHOT="true"; npm test
+
+Run in headed mode:
+$env:HEADLESS="false"; npm test
+
+Run with all debug features:
+$env:VIDEO="true"; $env:TRACE="true"; $env:SCREENSHOT="true"; $env:HEADLESS="false"; npm test
+
+## 📊 Reports
+
 HTML Report
 reports/cucumber-report.html
+
 Screenshots
 reports/screenshots/
-Videos
+
+Videos (only when enabled)
 reports/videos/
-Trace
+
+Trace (only when enabled)
 reports/trace/
 
-🚀 Key Highlights
+## 🚀 Key Highlights
+
 ✔ Scalable framework structure
 ✔ Cross-browser support (Chromium, Firefox, WebKit)
-✔ Debug-friendly execution (Trace + Video + Screenshot)
+✔ Environment-based debug toggles (Video, Trace, Screenshot)
+✔ Optimized execution (debug features disabled by default)
 ✔ CI/CD ready architecture
 ✔ Industry-standard BDD approach
 
-🚀 Upcoming Enhancements
+## 🚀 Upcoming Enhancements
+
 🛒 E-commerce flow (Add to Cart → Checkout)
 🔌 API Automation Integration
 📊 Allure Reporting
 ⚙️ CI/CD Pipeline (GitHub Actions / Jenkins)
 ⚡ Parallel Execution Support
-🧠 Test Data Management Strategy
+🧠 Advanced Test Data Management Strategy
 
-👨‍💻 Author
+## 👨‍💻 Author
+
 Shivam Sarode
 QA Automation Engineer | SDET
 Playwright | Selenium | JavaScript | API Testing
 
-⭐ Note
+## ⭐ Note
 
-This project is continuously improving to match modern automation standards.
+This framework uses environment-based configuration and debug toggles to ensure clean, fast, and scalable automation execution. Debug features like video, trace, and screenshots are disabled by default and can be enabled when required.

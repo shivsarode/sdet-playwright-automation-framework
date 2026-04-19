@@ -27,7 +27,7 @@ BeforeAll(async function () {
 
 Before(async function () {
   this.context = await browser.newContext({
-    ...(isVideo && { recordVideo: { dir: "reports/videos/" } }),
+    ...(false ? { recordVideo: { dir: "reports/videos/" } } : {}), // ✅ VIDEO OFF
     viewport: null
   });
 
