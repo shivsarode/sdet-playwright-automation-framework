@@ -3,19 +3,23 @@
 ![Playwright](https://img.shields.io/badge/Playwright-Automation-green)
 ![Cucumber](https://img.shields.io/badge/Cucumber-BDD-brightgreen)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
+![CI/CD](https://img.shields.io/badge/GitHub-Actions-blue)
+
+---
 
 ## 🧠 Overview
 
-A scalable and robust End-to-End Test Automation Framework built using Playwright with a Cucumber (BDD) approach.
+A scalable and robust End-to-End Test Automation Framework built using **Playwright + Cucumber (BDD)**.
 
 This framework is designed using real-world industry standards focusing on:
 
-- Clean architecture  
+- Clean Architecture  
 - Reusability  
 - Maintainability  
 - Debuggability (Screenshots, Video, Trace)  
+- CI/CD Integration  
 
-🚧 Currently under active development with CI/CD and API automation enhancements planned.
+🚧 Currently enhanced with GitHub Actions CI/CD pipeline and API automation expansion.
 
 ---
 
@@ -25,6 +29,7 @@ This framework is designed using real-world industry standards focusing on:
 - 🥒 Cucumber (BDD) – Behavior Driven Testing  
 - 🟨 JavaScript (ES6+) – Core Language  
 - 🟢 Node.js – Runtime Environment  
+- ⚙️ GitHub Actions – CI/CD Pipeline  
 
 ---
 
@@ -32,99 +37,102 @@ This framework is designed using real-world industry standards focusing on:
 
 - 🧱 Page Object Model (POM) Design Pattern  
 - ♻️ Reusable Utility Layer (Actions, Waits, Assertions)  
-- 🧪 BDD Feature Files for readable scenarios  
-- 📂 Clean separation of layers (Pages / Steps / Hooks / Utils)  
-- 🧩 Hooks for setup & teardown  
+- 🧪 BDD Feature Files (Readable Scenarios)  
+- 📂 Clean Separation of Layers:
+  - Pages  
+  - Step Definitions  
+  - Hooks  
+  - Utils  
+  - Config  
+- 🧩 Hooks for Setup & Teardown  
 
 ---
 
 ## 🔥 Debugging Features
 
-- 📸 Automatic Screenshot Capture on Failure  
-- 🎥 Video Recording for each test execution  
-- 🔍 Playwright Trace Viewer Integration  
-- 📊 HTML Reporting using Cucumber HTML Reporter  
+- 📸 Screenshot Capture on Failure  
+- 🎥 Video Recording (Configurable)  
+- 🔍 Playwright Trace Viewer  
+- 📊 HTML Cucumber Report  
 
 ---
 
 ## 🧪 Test Coverage
 
-- ✅ User Registration (Signup Flow)  
+- ✅ User Registration Flow  
 - ✅ Login (Valid & Invalid Scenarios)  
-- ✅ UI Validations using Assertions  
-- ✅ Functional Flow Testing  
+- ✅ UI Validations  
+- ✅ Functional End-to-End Scenarios  
 
 ---
 
 ## ▶️ Execution
 
 ### Run all tests
+```bash
 
 npm test
 
-### Run tests with report
-
+Run tests with report
 npm run test:report
 
-### Run in headed mode (UI visible)
-
+Run in headed mode (UI visible)
 npm run test:headed
 
-### Run with environment toggles (PowerShell)
-
-Enable Video:
+⚙️ Environment Toggles (PowerShell)
+Enable Video
 $env:VIDEO="true"; npm test
-
-Enable Trace:
+Enable Trace
 $env:TRACE="true"; npm test
-
-Enable Screenshot (on failure):
+Enable Screenshot on Failure
 $env:SCREENSHOT="true"; npm test
-
-Run in headed mode:
+Run in Headed Mode
 $env:HEADLESS="false"; npm test
-
-Run with all debug features:
+Full Debug Mode
 $env:VIDEO="true"; $env:TRACE="true"; $env:SCREENSHOT="true"; $env:HEADLESS="false"; npm test
 
-## 📊 Reports
+📊 Reports
+📄 HTML Report: reports/cucumber-report.html
 
-HTML Report
-reports/cucumber-report.html
+📸 Screenshots: reports/screenshots/
 
-Screenshots
-reports/screenshots/
+🎥 Videos: reports/videos/
 
-Videos (only when enabled)
-reports/videos/
+🔍 Trace Files: reports/trace/
 
-Trace (only when enabled)
-reports/trace/
+🚀 CI/CD (GitHub Actions)
 
-## 🚀 Key Highlights
+This framework is integrated with GitHub Actions CI/CD pipeline.
 
-✔ Scalable framework structure
+✔ Features:
+Auto trigger on every push
+Headless execution in CI
+Test reports as artifacts
+Screenshot upload on failure
+🔥 Key Highlights
+
+✔ Scalable enterprise-style framework
 ✔ Cross-browser support (Chromium, Firefox, WebKit)
-✔ Environment-based debug toggles (Video, Trace, Screenshot)
-✔ Optimized execution (debug features disabled by default)
-✔ CI/CD ready architecture
-✔ Industry-standard BDD approach
+✔ CI/CD integration (GitHub Actions)
+✔ Debug toggles (Video, Trace, Screenshot)
+✔ Parallel execution ready
+✔ Clean BDD architecture
 
-## 🚀 Upcoming Enhancements
-
-🛒 E-commerce flow (Add to Cart → Checkout)
+🚀 Upcoming Enhancements
+🛒 E-commerce End-to-End Flow
 🔌 API Automation Integration
 📊 Allure Reporting
-⚙️ CI/CD Pipeline (GitHub Actions / Jenkins)
-⚡ Parallel Execution Support
-🧠 Advanced Test Data Management Strategy
+⚙️ Jenkins Pipeline Integration
+🧠 Test Data Management Strategy
 
-## 👨‍💻 Author
 
+👨‍💻 Author
 Shivam Sarode
 QA Automation Engineer | SDET
 Playwright | Selenium | JavaScript | API Testing
 
-## ⭐ Note
+⭐ Note
 
-This framework uses environment-based configuration and debug toggles to ensure clean, fast, and scalable automation execution. Debug features like video, trace, and screenshots are disabled by default and can be enabled when required.
+This automation framework is built following industry-standard best practices with a strong focus on scalability, maintainability, and CI/CD integration.
+It supports environment-based configuration for debugging (Video, Trace, Screenshots), which are disabled by default to ensure faster and optimized test execution in CI pipelines.
+The framework is designed to be production-ready and easily extendable for real-world enterprise automation needs.
