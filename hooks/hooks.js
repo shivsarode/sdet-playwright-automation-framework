@@ -1,9 +1,11 @@
+require('dotenv').config(); // ✅ VERY IMPORTANT
+
 const { Before, After, BeforeAll, AfterAll } = require("@cucumber/cucumber");
 const { chromium, firefox, webkit } = require("playwright");
 
 let browser;
 
-// 🔥 TOGGLES (env based)
+// 🔥 ENV TOGGLES
 const isVideo = process.env.VIDEO === "true";
 const isTrace = process.env.TRACE === "true";
 const isScreenshot = process.env.SCREENSHOT === "true";
@@ -12,8 +14,8 @@ BeforeAll(async function () {
   const browserType = process.env.BROWSER || "chromium";
 
   const launchOptions = {
-    headless: false,
-    slowMo: 500
+    headless: process.env.HEADLESS !== "false",
+    slowMo: 200
   };
 
   if (browserType === "firefox") {
@@ -27,7 +29,7 @@ BeforeAll(async function () {
 
 Before(async function () {
   this.context = await browser.newContext({
-    ...(false ? { recordVideo: { dir: "reports/videos/" } } : {}), // ✅ VIDEO OFF
+    ...(isVideo ? { recordVideo: { dir: "reports/videos/" } } : {}),
     viewport: null
   });
 

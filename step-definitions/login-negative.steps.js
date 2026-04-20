@@ -1,16 +1,14 @@
 const { Given, When, Then, setDefaultTimeout } = require('@cucumber/cucumber');
 const LoginPage = require('../pages/LoginPage');
-const { loadFixture } = require('../utils/fixtureLoader');
+const config = require('../config/env');
+const users = require('../test-data/user.json'); // ✅ FIXED
 
 setDefaultTimeout(60000);
 
 let loginPage;
 
-const config = loadFixture("config.json");
-const users = loadFixture("users.json");
-
 Given('user navigates to the application', async function () {
-  await this.page.goto(config.baseUrl);
+  await this.page.goto(config.baseURL);
   loginPage = new LoginPage(this.page);
 });
 

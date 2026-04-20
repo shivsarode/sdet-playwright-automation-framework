@@ -1,18 +1,16 @@
 const { Given, When, Then, setDefaultTimeout } = require('@cucumber/cucumber');
 const SignupPage = require('../pages/SignupPage');
 const LoginPage = require('../pages/LoginPage');
-const { loadFixture } = require('../utils/fixtureLoader');
+const config = require('../config/env'); // ✅ env config
 
 setDefaultTimeout(60000);
 
 let signupPage, loginPage;
 let email;
 const password = "Test@123";
-let config;
 
 Given('user opens website', async function () {
-  config = loadFixture("config.json");
-  await this.page.goto(config.baseUrl);
+  await this.page.goto(config.baseURL); // ✅ no fixture अब
 
   signupPage = new SignupPage(this.page);
   loginPage = new LoginPage(this.page);

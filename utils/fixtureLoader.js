@@ -1,9 +1,18 @@
-const fs = require("fs");
+const fs = require("fs/promises");
 const path = require("path");
 
-function loadFixture(fileName) {
+const cache = {};
+
+async function loadFixture(fileName) {
+    if (cache[fileName]) {
+        return cache[fileName];
+    }
+
     const filePath = path.join(__dirname, "../fixtures", fileName);
-    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    const data = JSON.parse(await fs.readFile(filePath, "utf-8"));
+
+    cache[fileName] = data;
+    return data;
 }
 
 module.exports = { loadFixture };

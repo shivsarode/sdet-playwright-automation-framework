@@ -1,16 +1,14 @@
 const { Given, When, Then, setDefaultTimeout } = require('@cucumber/cucumber');
 const ProductPage = require('../pages/ProductPage');
-const { loadFixture } = require('../utils/fixtureLoader');
+const config = require('../config/env'); // ✅ FIXED
 
 setDefaultTimeout(60000);
 
 let productPage;
 
-const config = loadFixture("config.json");
-
 Given('user opens automation exercise website', async function () {
   productPage = new ProductPage(this.page);
-  await this.page.goto(config.baseUrl);
+  await this.page.goto(config.baseURL); // ✅ FIXED
 });
 
 When('user navigates to products page', async function () {
