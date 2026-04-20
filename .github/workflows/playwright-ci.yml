@@ -1,9 +1,7 @@
-name: Playwright Cucumber CI Pipeline
+name: Playwright Cucumber CI
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -11,38 +9,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # Setup Node
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
-      # Install dependencies
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      # Install Playwright browsers
-      - name: Install Playwright Browsers
+      - name: Create folders
+        run: |
+          mkdir -p reports
+          mkdir -p screenshots
+
+      - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # Run tests
-      - name: Run Test Suite
+      - name: Run tests
         run: npm run test
 
-      # Upload reports
-      - name: Upload Reports
+      - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cucumber-report
+          name: reports
           path: reports/
 
-      # Upload screenshots if failure
-      - name: Upload Failure Screenshots
+      - name: Upload screenshots
         if: failure()
         uses: actions/upload-artifact@v4
         with:
