@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 193609999
+              "duration": 212915699
             }
           },
           {
@@ -27,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 6428420799
+              "duration": 5065278900
             }
           },
           {
@@ -40,7 +40,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1092632399
+              "duration": 871981299
             }
           },
           {
@@ -53,7 +53,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2151943299
+              "duration": 624772200
             }
           },
           {
@@ -66,7 +66,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1854442500
+              "duration": 979553899
             }
           },
           {
@@ -74,7 +74,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 57950500
+              "duration": 62931500
             }
           }
         ],
@@ -104,7 +104,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 218899900
+              "duration": 194909499
             }
           },
           {
@@ -117,7 +117,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 4352091999
+              "duration": 3288767299
             }
           },
           {
@@ -130,7 +130,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1355998400
+              "duration": 999167400
             }
           },
           {
@@ -143,7 +143,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1567516700
+              "duration": 1226706000
             }
           },
           {
@@ -156,7 +156,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 193357400
+              "duration": 170583099
             }
           },
           {
@@ -164,7 +164,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 45501199
+              "duration": 40561499
             }
           }
         ],
@@ -194,7 +194,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 165665600
+              "duration": 154924500
             }
           },
           {
@@ -207,7 +207,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 4430191699
+              "duration": 3252302499
             }
           },
           {
@@ -220,7 +220,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2705765499
+              "duration": 2708966099
             }
           },
           {
@@ -233,7 +233,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 7644775099
+              "duration": 5934447000
             }
           },
           {
@@ -246,7 +246,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1876925599
+              "duration": 1097375700
             }
           },
           {
@@ -259,7 +259,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 5505892299
+              "duration": 3299716300
             }
           },
           {
@@ -272,7 +272,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 511223799
+              "duration": 510486500
             }
           },
           {
@@ -280,7 +280,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 40899599
+              "duration": 40942600
             }
           }
         ],
@@ -294,5 +294,108 @@
     "name": "Register and Login Flow",
     "tags": [],
     "uri": "features\\login.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "product-details-verification;user-views-product-details-successfully",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "User views product details successfully",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 184115299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "user launches the application",
+            "match": {
+              "location": "step-definitions\\productDetailsSteps.js:9"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5094262299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "user navigates to the products section",
+            "match": {
+              "location": "step-definitions\\productDetailsSteps.js:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 818591200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "user verifies the products list is displayed",
+            "match": {
+              "location": "step-definitions\\productDetailsSteps.js:18"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8009599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "user selects the first product to view details",
+            "match": {
+              "location": "step-definitions\\productDetailsSteps.js:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 805406399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "user should see complete product information",
+            "match": {
+              "location": "step-definitions\\productDetailsSteps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 192148500
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 42694600
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "product-details-verification",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Product Details Verification",
+    "tags": [],
+    "uri": "features\\productDetails.feature"
   }
 ]
