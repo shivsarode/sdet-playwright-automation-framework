@@ -79,26 +79,49 @@ npm run test:report
 Run in headed mode (UI visible)
 npm run test:headed
 
-⚙️ Environment Toggles (PowerShell)
-Enable Video
-$env:VIDEO="true"; npm test
-Enable Trace
-$env:TRACE="true"; npm test
-Enable Screenshot on Failure
-$env:SCREENSHOT="true"; npm test
-Run in Headed Mode
-$env:HEADLESS="false"; npm test
-Full Debug Mode
-$env:VIDEO="true"; $env:TRACE="true"; $env:SCREENSHOT="true"; $env:HEADLESS="false"; npm test
+## ⚙️ Environment Toggles (PowerShell)
 
-📊 Reports
-📄 HTML Report: reports/cucumber-report.html
+# 🎥 Enable Video Recording
+$env:VIDEO="true"; npm run test
 
-📸 Screenshots: reports/screenshots/
+# 🔍 Enable Trace
+$env:TRACE="true"; npm run test
 
-🎥 Videos: reports/videos/
+# 📸 Enable Screenshot on Failure
+$env:SCREENSHOT="true"; npm run test
 
-🔍 Trace Files: reports/trace/
+# 🖥️ Run in Headed Mode (Browser Visible)
+$env:HEADLESS="false"; npm run test
+
+# 🔥 Full Debug Mode (All Enabled)
+$env:VIDEO="true"; $env:TRACE="true"; $env:SCREENSHOT="true"; $env:HEADLESS="false"; npm run test
+```
+
+---
+
+## 🚀 Test Execution Commands
+
+# ▶️ Run All Tests (Default - Headless)
+npm test
+
+# 🖥️ Run in Headed Mode
+npm  test:headed
+
+# 🔁 Run Failed Scenarios Only
+npm test:rerun
+
+# 📊 Run Tests + Generate Report
+npm test:report
+```
+---
+
+## 📊 Reports & Artifacts
+
+* 📄 HTML Report: `reports/cucumber-report.html`
+* 📸 Screenshots: `reports/screenshots/`
+* 🎥 Videos: `reports/videos/`
+* 🔍 Trace Files: `reports/trace/`
+
 
 🚀 CI/CD (GitHub Actions)
 

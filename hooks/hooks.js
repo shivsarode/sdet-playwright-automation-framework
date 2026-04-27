@@ -14,7 +14,7 @@ BeforeAll(async function () {
   const browserType = process.env.BROWSER || "chromium";
 
   const launchOptions = {
-    headless: process.env.HEADLESS !== "false",
+    headless: process.env.HEADLESS !== "true",
     slowMo: 200
   };
 
