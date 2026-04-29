@@ -5,16 +5,15 @@ const { chromium, firefox, webkit } = require("playwright");
 
 let browser;
 
-// 🔥 ENV TOGGLES
+//  ENV TOGGLES
 const isVideo = process.env.VIDEO === "true";
 const isTrace = process.env.TRACE === "true";
-const isScreenshot = process.env.SCREENSHOT === "true";
 
 BeforeAll(async function () {
   const browserType = process.env.BROWSER || "chromium";
 
   const launchOptions = {
-    headless: process.env.HEADLESS !== "true",
+    headless: process.env.HEADLESS !== "false", // ✅ fixed logic
     slowMo: 200
   };
 
@@ -46,11 +45,13 @@ Before(async function () {
 After(async function (scenario) {
   const scenarioName = scenario.pickle.name.replace(/[^a-zA-Z0-9]/g, "_");
 
-  if (isScreenshot && scenario.result.status === "FAILED") {
+  // ALWAYS capture screenshot on failure
+  if (scenario.result.status === "FAILED") {
     const screenshot = await this.page.screenshot();
     await this.attach(screenshot, "image/png");
   }
 
+  //  Trace safe stop
   if (isTrace) {
     await this.context.tracing.stop({
       path: `reports/trace/${scenarioName}.zip`
