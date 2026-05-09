@@ -1,90 +1,74 @@
 require('dotenv').config();
 
-const { Before, After, BeforeAll, AfterAll } = require("@cucumber/cucumber");
-const { chromium, firefox, webkit } = require("playwright");
+const { Before, After, BeforeAll, AfterAll } = require('@cucumber/cucumber');
+const { chromium, firefox, webkit } = require('playwright');
 const logger = require('../utils/logger');
 
 let browser;
 
-const isVideo = process.env.VIDEO === "true";
-const isTrace = process.env.TRACE === "true";
+const VIDEO = process.env.VIDEO === 'true';
+const TRACE = process.env.TRACE === 'true';
+const SLOW_MO = Number(process.env.SLOW_MO) || 0;
 
-BeforeAll(async function () {
+BeforeAll(async () => {
 
-  const browserType = process.env.BROWSER || "chromium";
+  const type = process.env.BROWSER || 'chromium';
 
-  const launchOptions = {
-    headless: process.env.HEADLESS !== "false",
-    slowMo: 200
-  };
+  browser = await ({ chromium, firefox, webkit })[type].launch({
+    headless: process.env.HEADLESS === 'true',
+    slowMo: SLOW_MO
+  });
 
-  logger.info(`Launching Browser: ${browserType}`);
-
-  const browsers = { chromium, firefox, webkit };
-
-  browser = await browsers[browserType].launch(launchOptions);
+  logger.info(`Browser launched: ${type}`);
 });
 
 Before(async function (scenario) {
 
-  logger.info(`Starting Scenario: ${scenario.pickle.name}`);
+  logger.info(`Scenario Start: ${scenario.pickle.name}`);
 
   this.context = await browser.newContext({
-    ...(isVideo && { recordVideo: { dir: "reports/videos/" } }),
+    recordVideo: VIDEO ? { dir: 'reports/videos/' } : undefined,
     viewport: null
   });
 
-  // Start trace if enabled
-  if (isTrace) {
+  if (TRACE)
     await this.context.tracing.start({
       screenshots: true,
       snapshots: true
     });
-
-    logger.info("Trace Started");
-  }
 
   this.page = await this.context.newPage();
 });
 
 After(async function (scenario) {
 
-  const scenarioName = scenario.pickle.name.replace(/[^a-zA-Z0-9]/g, "_");
+  const name = scenario.pickle.name.replace(/[^a-zA-Z0-9]/g, '_');
 
-  // Capture failure evidence
-  if (scenario.result.status === "FAILED") {
+  if (scenario.result.status === 'FAILED') {
 
-    logger.error(`Scenario Failed: ${scenario.pickle.name}`);
+    logger.error(`FAILED: ${scenario.pickle.name}`);
 
-    const screenshot = await this.page.screenshot({
-      path: `reports/screenshots/${scenarioName}.png`,
-      fullPage: true
-    });
+    const path = `reports/screenshots/${name}.png`;
 
-    await this.attach(screenshot, "image/png");
+    const img = await this.page.screenshot({ path, fullPage: true });
 
-    logger.info("Failure Screenshot Captured");
+    await this.attach(img, 'image/png');
   }
 
-  // Stop trace if enabled
-  if (isTrace) {
-
+  if (TRACE)
     await this.context.tracing.stop({
-      path: `reports/trace/${scenarioName}.zip`
+      path: `reports/trace/${name}.zip`
     });
-
-    logger.info("Trace File Generated");
-  }
-
-  logger.info(`Scenario Completed: ${scenario.pickle.name}`);
 
   await this.page.close();
   await this.context.close();
+
+  logger.info(`Scenario End: ${scenario.pickle.name}`);
 });
 
-AfterAll(async function () {
+AfterAll(async () => {
 
-  logger.info("Closing Browser");
+  logger.info('Browser closed');
 
   await browser.close();
 });
