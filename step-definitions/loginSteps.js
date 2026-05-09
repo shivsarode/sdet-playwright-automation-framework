@@ -6,12 +6,13 @@ const LoginPage = require('../pages/LoginPage');
 const config = require('../config/env');
 const logger = require('../utils/logger');
 
+const fakerUtils = require('../utils/fakerUtils');
+
 setDefaultTimeout(60000);
 
 let signupPage, loginPage;
-let email;
 
-const password = "Test@123";
+let user;
 
 Given('user opens website', async function () {
 
@@ -22,9 +23,9 @@ Given('user opens website', async function () {
     signupPage = new SignupPage(this.page);
     loginPage = new LoginPage(this.page);
 
-    email = `shivam${Date.now()}@mail.com`;
+    user = fakerUtils.generateUser();
 
-    logger.info(`Generated email: ${email}`);
+    logger.info(`Generated user email: ${user.email}`);
 });
 
 When('user signs up with new email', async function () {
@@ -35,7 +36,7 @@ When('user signs up with new email', async function () {
 
     logger.info('Performing signup');
 
-    await signupPage.signup('Shivam', email);
+    await signupPage.signup(user.name, user.email);
 
     logger.info('Signup completed');
 });
@@ -44,7 +45,7 @@ When('user creates account', async function () {
 
     logger.info('Creating account with personal details');
 
-    await signupPage.fillAccountDetails(password);
+    await signupPage.fillAccountDetails(user.password);
 
     logger.info('Account created successfully');
 });
@@ -66,7 +67,7 @@ When('user logs in with same credentials', async function () {
 
     logger.info('Logging in with created credentials');
 
-    await loginPage.login(email, password);
+    await loginPage.login(user.email, user.password);
 
     logger.info('Login action completed');
 });
