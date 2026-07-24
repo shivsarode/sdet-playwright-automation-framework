@@ -43,11 +43,23 @@ When('user signs up with new email', async function () {
 
 When('user creates account', async function () {
 
-    logger.info('Creating account with personal details');
+    logger.info('Creating account');
 
     await signupPage.fillAccountDetails(user.password);
 
-    logger.info('Account created successfully');
+    logger.info('Verifying account creation');
+
+    await signupPage.verifyAccountCreated();
+
+    logger.info('Clicking Continue');
+
+    await signupPage.clickContinue();
+
+    logger.info('Verifying user login');
+
+    await loginPage.verifyLoginSuccess();
+
+    logger.info('Account creation completed');
 });
 
 When('user logs out', async function () {

@@ -1,24 +1,25 @@
 const elementUtils = require('../utils/elementUtils');
 const waitUtils = require('../utils/waitUtils');
-const screenshotUtils = require('../utils/screenshotUtils');
 const assertUtils = require('../utils/assertUtils');
 
 class SignupPage {
   constructor(page) {
     this.page = page;
 
+    // Login / Signup
     this.loginLink = 'a[href="/login"]';
     this.signupName = '[data-qa="signup-name"]';
     this.signupEmail = '[data-qa="signup-email"]';
     this.signupBtn = '[data-qa="signup-button"]';
 
+    // Account Information
     this.gender = '#id_gender1';
     this.password = '#password';
-
     this.days = '#days';
     this.months = '#months';
     this.years = '#years';
 
+    // Address Information
     this.firstName = '#first_name';
     this.lastName = '#last_name';
     this.address = '#address1';
@@ -28,9 +29,11 @@ class SignupPage {
     this.zipcode = '#zipcode';
     this.mobile = '#mobile_number';
 
+    // Buttons
     this.createAccountBtn = '[data-qa="create-account"]';
     this.continueBtn = '[data-qa="continue-button"]';
 
+    // Success Message
     this.accountCreatedText = 'text=Account Created!';
   }
 
@@ -62,15 +65,15 @@ class SignupPage {
     await elementUtils.type(this.page, this.mobile, '9999999999');
 
     await elementUtils.click(this.page, this.createAccountBtn);
+  }
 
-    // ✅ Validation
+  async verifyAccountCreated() {
     await waitUtils.waitForElement(this.page, this.accountCreatedText);
     await assertUtils.verifyVisible(this.page, this.accountCreatedText);
+  }
 
+  async clickContinue() {
     await elementUtils.click(this.page, this.continueBtn);
-
-    // 📸 Screenshot
-    await screenshotUtils.takeScreenshot(this.page, 'signup_success');
   }
 }
 

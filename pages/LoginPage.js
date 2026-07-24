@@ -32,13 +32,11 @@ class LoginPage {
   async verifyLoginSuccess() {
     await waitUtils.waitForElement(this.page, this.loggedText);
     await assertUtils.verifyVisible(this.page, this.loggedText);
-
   }
 
   async verifyLoginError() {
     await waitUtils.waitForElement(this.page, this.errorText);
     await assertUtils.verifyVisible(this.page, this.errorText);
-
   }
 }
 
