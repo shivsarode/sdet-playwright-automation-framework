@@ -5,8 +5,7 @@ module.exports = {
       'hooks/*.js'
     ],
     format: [
-      'progress',
-      'json:reports/cucumber-report.json'
+      'progress'
     ],
     paths: [
       'features/**/*.feature'

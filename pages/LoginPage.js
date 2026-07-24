@@ -1,7 +1,6 @@
 const elementUtils = require('../utils/elementUtils');
 const waitUtils = require('../utils/waitUtils');
 const assertUtils = require('../utils/assertUtils');
-const screenshotUtils = require('../utils/screenshotUtils');
 
 class LoginPage {
   constructor(page) {
@@ -34,14 +33,12 @@ class LoginPage {
     await waitUtils.waitForElement(this.page, this.loggedText);
     await assertUtils.verifyVisible(this.page, this.loggedText);
 
-    await screenshotUtils.takeScreenshot(this.page, 'login_success');
   }
 
   async verifyLoginError() {
     await waitUtils.waitForElement(this.page, this.errorText);
     await assertUtils.verifyVisible(this.page, this.errorText);
 
-    await screenshotUtils.takeScreenshot(this.page, 'login_error');
   }
 }
 
