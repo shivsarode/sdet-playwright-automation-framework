@@ -1,7 +1,7 @@
 const { Given, When, Then, setDefaultTimeout } = require('@cucumber/cucumber');
 const LoginPage = require('../pages/LoginPage');
 const config = require('../config/env');
-const users = require('../test-data/user.json'); // ✅ FIXED
+const users = require('../test-data/user.json'); 
 
 setDefaultTimeout(60000);
 
@@ -25,5 +25,5 @@ When('user submits incorrect email and password', async function () {
 
 Then('system should display authentication error message', async function () {
   await loginPage.verifyLoginError();
-  console.log("🔥 ERROR MESSAGE VERIFIED");
+  console.log(" ERROR MESSAGE VERIFIED");
 });
