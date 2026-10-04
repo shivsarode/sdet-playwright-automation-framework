@@ -21,6 +21,12 @@ class ProductDetailsPage {
     this.productAvailability = '.product-information p:has-text("Availability")';
     this.productCondition = '.product-information p:has-text("Condition")';
     this.productBrand = '.product-information p:has-text("Brand")';
+
+    // Quantity & Cart
+    this.quantityInput = '#quantity';
+    this.addToCartBtn = 'button:has-text("Add to cart")';
+    this.viewCartBtn = 'a:has-text("View Cart")';
+    this.cartQuantity = '#cart_info_table tbody tr:first-child .cart_quantity button';
   }
 
   // Navigate to Products Page
@@ -52,6 +58,28 @@ class ProductDetailsPage {
     await assertUtils.verifyVisible(this.page, this.productAvailability);
     await assertUtils.verifyVisible(this.page, this.productCondition);
     await assertUtils.verifyVisible(this.page, this.productBrand);
+  }
+
+  // Set Product Quantity
+  async setProductQuantity(quantity) {
+    await this.page.locator(this.quantityInput).fill(String(quantity));
+  }
+
+  // Add Product To Cart
+  async addProductToCart() {
+    await elementUtils.click(this.page, this.addToCartBtn);
+    await waitUtils.waitForElement(this.page, this.viewCartBtn);
+  }
+
+  // Open Cart
+  async openCart() {
+    await elementUtils.click(this.page, this.viewCartBtn);
+    await waitUtils.waitForElement(this.page, 'text=Shopping Cart');
+  }
+
+  // Get Cart Quantity
+  async getCartQuantity() {
+    return await this.page.locator(this.cartQuantity).innerText();
   }
 
   // Get Product Details

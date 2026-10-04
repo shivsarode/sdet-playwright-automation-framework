@@ -13,9 +13,12 @@ class ProductPage {
     this.viewCartBtn = 'a:has-text("View Cart")';
     this.cartPageText = 'text=Shopping Cart';
     this.productModal = '.modal-content';
+
+    // Cart quantity
+    this.quantityElement = '#cart_info_table tbody tr:first-child .cart_quantity button';
   }
 
-  // Open application using ENV
+  // Open application
   async openApp() {
     await this.page.goto(env.baseURL);
   }
@@ -40,6 +43,28 @@ class ProductPage {
   async verifyProductAddedToCart() {
     await waitUtils.waitForElement(this.page, this.cartPageText);
     await assertUtils.verifyVisible(this.page, this.cartPageText);
+  }
+
+  // Increase Product Quantity
+  async increaseProductQuantity() {
+    const quantityElement = this.page.locator(this.quantityElement);
+
+    await quantityElement.waitFor({ state: 'visible' });
+
+    const currentQuantity = await quantityElement.innerText();
+
+    if (currentQuantity !== '2') {
+      throw new Error(`Expected initial quantity to be 2, but found ${currentQuantity}`);
+    }
+
+    await quantityElement.click();
+  }
+
+  // Get Product Quantity
+  async getProductQuantity() {
+    return await this.page
+      .locator(this.quantityElement)
+      .innerText();
   }
 }
 
