@@ -1,48 +1,66 @@
 class ElementUtils {
 
+    getLocator(page, locator) {
+        if (typeof locator === 'string') {
+            return page.locator(locator);
+        }
+
+        return locator;
+    }
+
     async click(page, locator) {
-        await page.locator(locator).waitFor({ state: 'visible' });
-        await page.locator(locator).click();
+        const element = this.getLocator(page, locator);
+        await element.waitFor({ state: 'visible' });
+        await element.click();
     }
 
     async type(page, locator, text) {
-        await page.locator(locator).waitFor({ state: 'visible' });
-        await page.locator(locator).fill(text);
+        const element = this.getLocator(page, locator);
+        await element.waitFor({ state: 'visible' });
+        await element.fill(text);
     }
 
     async clearAndType(page, locator, text) {
-        await page.locator(locator).waitFor({ state: 'visible' });
-        await page.locator(locator).fill('');
-        await page.locator(locator).fill(text);
+        const element = this.getLocator(page, locator);
+        await element.waitFor({ state: 'visible' });
+        await element.fill('');
+        await element.fill(text);
     }
 
     async getText(page, locator) {
-        await page.locator(locator).waitFor({ state: 'visible' });
-        return await page.locator(locator).textContent();
+        const element = this.getLocator(page, locator);
+        await element.waitFor({ state: 'visible' });
+        return await element.textContent();
     }
 
     async isVisible(page, locator) {
-        return await page.locator(locator).isVisible();
+        const element = this.getLocator(page, locator);
+        return await element.isVisible();
     }
 
     async waitForElement(page, locator) {
-        await page.locator(locator).waitFor({ state: 'visible' });
+        const element = this.getLocator(page, locator);
+        await element.waitFor({ state: 'visible' });
     }
 
     async selectDropdownByValue(page, locator, value) {
-        await page.locator(locator).selectOption(value);
+        const element = this.getLocator(page, locator);
+        await element.selectOption(value);
     }
 
     async hover(page, locator) {
-        await page.locator(locator).hover();
+        const element = this.getLocator(page, locator);
+        await element.hover();
     }
 
     async doubleClick(page, locator) {
-        await page.locator(locator).dblclick();
+        const element = this.getLocator(page, locator);
+        await element.dblclick();
     }
 
     async getAttribute(page, locator, attribute) {
-        return await page.locator(locator).getAttribute(attribute);
+        const element = this.getLocator(page, locator);
+        return await element.getAttribute(attribute);
     }
 
 }

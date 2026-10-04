@@ -1,15 +1,21 @@
 class WaitUtils {
 
+    getLocator(page, locator) {
+        if (typeof locator === 'string') {
+            return page.locator(locator);
+        }
+
+        return locator;
+    }
+
     async waitForElement(page, locator) {
-        await page.locator(locator).waitFor({ state: 'visible' });
+        const element = this.getLocator(page, locator);
+        await element.waitFor({ state: 'visible' });
     }
 
-    async waitForClickable(page, locator) {
-        await page.locator(locator).waitFor({ state: 'attached' });
-    }
-
-    async waitForURL(page, url) {
-        await page.waitForURL(url);
+    async waitForElementHidden(page, locator) {
+        const element = this.getLocator(page, locator);
+        await element.waitFor({ state: 'hidden' });
     }
 
 }
