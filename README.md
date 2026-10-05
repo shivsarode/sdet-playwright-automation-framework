@@ -1,161 +1,264 @@
-# 🚀 SDET Playwright Automation Framework
+# SDET Playwright Automation Framework
 
-![Playwright](https://img.shields.io/badge/Playwright-Automation-green)
-![Cucumber](https://img.shields.io/badge/Cucumber-BDD-brightgreen)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
-![CI/CD](https://img.shields.io/badge/GitHub-Actions-blue)
+A maintainable end-to-end test automation framework built with **Playwright, JavaScript and Cucumber BDD**, designed to demonstrate real-world QA automation practices.
 
----
-
-## 🧠 Overview
-
-A scalable and robust End-to-End Test Automation Framework built using **Playwright + Cucumber (BDD)**.
-
-This framework is designed using real-world industry standards focusing on:
-
-- Clean Architecture  
-- Reusability  
-- Maintainability  
-- Debuggability (Screenshots, Video, Trace)  
-- CI/CD Integration  
-
-🚧 Currently enhanced with GitHub Actions CI/CD pipeline and API automation expansion.
+The framework covers UI automation, reusable Page Object Model design, test data management, authentication using Playwright Storage State, failure debugging, reporting and CI/CD integration.
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
-- 🎭 Playwright – UI Automation  
-- 🥒 Cucumber (BDD) – Behavior Driven Testing  
-- 🟨 JavaScript (ES6+) – Core Language  
-- 🟢 Node.js – Runtime Environment  
-- ⚙️ GitHub Actions – CI/CD Pipeline  
-
----
-
-## ⚙️ Framework Architecture
-
-- 🧱 Page Object Model (POM) Design Pattern  
-- ♻️ Reusable Utility Layer (Actions, Waits, Assertions)  
-- 🧪 BDD Feature Files (Readable Scenarios)  
-- 📂 Clean Separation of Layers:
-  - Pages  
-  - Step Definitions  
-  - Hooks  
-  - Utils  
-  - Config  
-- 🧩 Hooks for Setup & Teardown  
+- Playwright
+- JavaScript (ES6+)
+- Cucumber BDD
+- Node.js
+- Page Object Model (POM)
+- Git & GitHub
+- GitHub Actions
+- Faker.js
+- REST API Automation (In Progress)
 
 ---
 
-## 🔥 Debugging Features
+## Key Features
 
-- 📸 Screenshot Capture on Failure  
-- 🎥 Video Recording (Configurable)  
-- 🔍 Playwright Trace Viewer  
-- 📊 HTML Cucumber Report  
+- UI automation using Playwright
+- BDD automation using Cucumber
+- Page Object Model architecture
+- Reusable utility classes
+- Cross-browser support
+- Positive and negative test scenarios
+- Dynamic test data using Faker.js
+- Playwright Storage State authentication
+- Screenshot capture on failure
+- Configurable browser execution
+- Retry failed scenarios
+- Logging and debugging support
+- CI/CD with GitHub Actions
+- API automation expansion
 
 ---
 
-## 🧪 Test Coverage
+## Automation Coverage
 
-- ✅ User Registration Flow  
-- ✅ Login (Valid & Invalid Scenarios)  
-- ✅ UI Validations  
-- ✅ Functional End-to-End Scenarios  
+### UI Automation
 
----
+Current automated workflows include:
 
-## ▶️ Execution
+- User Registration
+- Login
+- Negative Login Scenarios
+- Logout
+- Product Navigation
+- Product Details
+- Cart Operations
+- Cart Quantity Verification
+- Cart Price Verification
+- End-to-End E-commerce Scenarios
 
-### Run all tests
-```bash
+### Authentication
 
+The framework supports **Playwright Storage State** for reusing authenticated sessions.
+
+```text
+auth/
+├── setupAuth.js
+└── auth.json
+
+auth.json contains local authentication/session data and should not be committed to GitHub.
+API Automation
+API automation is being added using Playwright API capabilities.
+Planned coverage includes:
+- GET requests
+- POST requests
+- Request and response validation
+- Status code validation
+- Positive API scenarios
+- Negative API scenarios
+- JSON response validation
+- API test data management
+Framework Architecture
+sdet-playwright-automation-framework/
+│
+├── auth/
+│   ├── setupAuth.js
+│   └── auth.json
+│
+├── config/
+│   └── env.js
+│
+├── features/
+│   ├── login.feature
+│   ├── login-negative.feature
+│   ├── cartQuantity.feature
+│   ├── cartTotalPrice.feature
+│   └── ...
+│
+├── hooks/
+│   └── hooks.js
+│
+├── pages/
+│   ├── LoginPage.js
+│   ├── SignupPage.js
+│   ├── ProductPage.js
+│   ├── ProductDetailsPage.js
+│   └── ...
+│
+├── step-definitions/
+│   ├── loginSteps.js
+│   ├── cartQuantity.steps.js
+│   ├── cartTotalPrice.steps.js
+│   └── ...
+│
+├── utils/
+│   ├── elementUtils.js
+│   ├── waitUtils.js
+│   ├── assertUtils.js
+│   ├── fakerUtils.js
+│   └── logger.js
+│
+├── test-data/
+│   └── loginData.json
+│
+├── logs/
+├── reports/
+├── .env
+├── .gitignore
+├── cucumber.js
+├── package.json
+└── README.md
+
+Page Object Model
+The framework follows the Page Object Model (POM) design pattern.
+Each application page has its own class containing:
+- Locators
+- Page actions
+- Reusable methods
+- Validation methods
+This improves maintainability, reusability, readability and scalability.
+
+Reusable Utilities
+Common Playwright operations are centralized inside the utility layer.
+Examples:
+- Click
+- Type / Fill
+- Clear and Type
+- Get Text
+- Visibility Checks
+- Wait for Element
+- Dropdown Selection
+- Hover
+- Double Click
+- Get Attribute
+This keeps step definitions clean and reduces duplicate automation code.
+
+Test Data
+Test data is managed separately from test logic.
+Current framework uses:
+- JSON test data
+- Faker.js for dynamic data generation
+- Environment variables using .env
+test-data/
+└── loginData.json
+
+Browser Support
+The framework supports:
+- Chromium
+- Firefox
+- WebKit
+Browser can be configured using:
+BROWSER=chromium
+
+Execution
+Install Dependencies
+npm install
+
+Run All Tests
 npm test
 
-Run tests with report
-npm run test:report
+Run a Specific Feature
+npm test -- features/login.feature
 
-Run in headed mode (UI visible)
-npm run test:headed
+Run a Specific Scenario Using Tags
+npx cucumber-js --tags "@login"
 
-## ⚙️ Environment Toggles (PowerShell)
+Run Tests in Headed Mode
+PowerShell:
+$env:HEADLESS="false"; npm test
 
-# 🎥 Enable Video Recording
-$env:VIDEO="true"; npm run test
+Run Failed Scenarios
+npm run test:rerun
 
-# 🔍 Enable Trace
-$env:TRACE="true"; npm run test
+Authentication Setup
+Create the Playwright authenticated storage state using:
+node auth/setupAuth.js
 
-# 📸 Enable Screenshot on Failure
-$env:SCREENSHOT="true"; npm run test
+The browser will open for manual authentication.
+After successful login, press ENTER in the terminal.
+The authentication state will be saved to:
+auth/auth.json
 
-# 🖥️ Run in Headed Mode (Browser Visible)
-$env:HEADLESS="false"; npm run test
+auth/auth.json should remain excluded through .gitignore.
+Debugging & Reporting
+The framework supports:
+- Failure screenshots
+- Application logs
+- Cucumber reports
+- Playwright debugging
+- Retry mechanism
+Failure screenshots are automatically captured when a scenario fails.
 
-# 🔥 Full Debug Mode (All Enabled)
-$env:VIDEO="true"; $env:TRACE="true"; $env:SCREENSHOT="true"; $env:HEADLESS="false"; npm run test
-```
+CI/CD
+GitHub Actions is integrated for automated test execution.
+The pipeline supports:
+- Automated test execution
+- Headless browser execution
+- Test result reporting
+- Failure debugging artifacts
 
----
-
-## 🚀 Test Execution Commands
-
-# ▶️ Run All Tests (Default - Headless)
-npm test
-
-# 🖥️ Run in Headed Mode
-npm  test:headed
-
-# 🔁 Run Failed Scenarios Only
-npm test:rerun
-
-# 📊 Run Tests + Generate Report
-npm test:report
-```
----
-
-## 📊 Reports & Artifacts
-
-* 📄 HTML Report: `reports/cucumber-report.html`
-* 📸 Screenshots: `reports/screenshots/`
-* 🎥 Videos: `reports/videos/`
-* 🔍 Trace Files: `reports/trace/`
-
-
-🚀 CI/CD (GitHub Actions)
-
-This framework is integrated with GitHub Actions CI/CD pipeline.
-
-✔ Features:
-Auto trigger on every push
-Headless execution in CI
-Test reports as artifacts
-Screenshot upload on failure
-🔥 Key Highlights
-
-✔ Scalable enterprise-style framework
-✔ Cross-browser support (Chromium, Firefox, WebKit)
-✔ CI/CD integration (GitHub Actions)
-✔ Debug toggles (Video, Trace, Screenshot)
-✔ Parallel execution ready
-✔ Clean BDD architecture
-
-🚀 Upcoming Enhancements
-🛒 E-commerce End-to-End Flow
-🔌 API Automation Integration
-📊 Allure Reporting
-⚙️ Jenkins Pipeline Integration
-🧠 Test Data Management Strategy
+Current Project Status
+Area	Status
+Playwright UI Automation	Completed
+Cucumber BDD	Completed
+Page Object Model	Completed
+Reusable Utilities	Completed
+Positive Testing	Completed
+Negative Testing	Completed
+Cart Automation	Completed
+Storage State Authentication	Completed
+Dynamic Test Data	Completed
+Logging	Completed
+Failure Screenshots	Completed
+GitHub Actions	Integrated
+API Automation	In Progress
+Allure Reporting	Planned
+Jenkins Integration	Planned
 
 
-👨‍💻 Author
+Future Enhancements
+- Expand REST API automation
+- API + UI end-to-end scenarios
+- Allure reporting
+- Jenkins pipeline
+- Advanced test data management
+- Parallel execution optimization
+- Additional API negative and security scenarios
+
+Project Highlights
+This project demonstrates practical experience with:
+- Playwright UI automation
+- Cucumber BDD
+- JavaScript automation
+- Page Object Model
+- Reusable automation architecture
+- Authentication state management
+- Functional and negative testing
+- Test data generation
+- CI/CD automation
+- Debugging and reporting
+- API automation
+
+Author
 Shivam Sarode
 QA Automation Engineer | SDET
-Playwright | Selenium | JavaScript | API Testing
-
-⭐ Note
-
-This automation framework is built following industry-standard best practices with a strong focus on scalability, maintainability, and CI/CD integration.
-It supports environment-based configuration for debugging (Video, Trace, Screenshots), which are disabled by default to ensure faster and optimized test execution in CI pipelines.
-The framework is designed to be production-ready and easily extendable for real-world enterprise automation needs.
+Skills: Playwright | Selenium | Java | JavaScript | TypeScript | Cucumber | API Testing | Jenkins | GitHub Actions
