@@ -207,7 +207,6 @@ The framework supports:
 - Playwright debugging
 - Retry mechanism
 Failure screenshots are automatically captured when a scenario fails.
-
 CI/CD
 GitHub Actions is integrated for automated test execution.
 The pipeline supports:
@@ -215,7 +214,6 @@ The pipeline supports:
 - Headless browser execution
 - Test result reporting
 - Failure debugging artifacts
-
 Current Project Status
 Area	Status
 Playwright UI Automation	Completed
@@ -243,7 +241,6 @@ Future Enhancements
 - Advanced test data management
 - Parallel execution optimization
 - Additional API negative and security scenarios
-
 Project Highlights
 This project demonstrates practical experience with:
 - Playwright UI automation

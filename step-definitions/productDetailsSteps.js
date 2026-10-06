@@ -58,5 +58,5 @@ Then('user should see complete product information', async function () {
 
     logger.info('Product details verified successfully');
 
-    console.log('🔥 Product Details Page verified successfully');
+    console.log(' Product Details Page verified successfully');
 });
