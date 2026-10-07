@@ -10,7 +10,7 @@ class ProductDetailsPage {
     this.productsLink = 'a[href="/products"]';
 
     // Products Section
-    this.productsPageTitle = 'text=All Products';
+    this.productsPageTitle = '.features_items';
     this.productsList = '.features_items';
     this.firstProductViewBtn = '(//a[contains(text(),"View Product")])[1]';
 

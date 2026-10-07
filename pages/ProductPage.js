@@ -21,9 +21,12 @@ class ProductPage {
         this.continueShoppingBtn = page.getByText('Continue Shopping').first();
     }
 
-    async openApp() {
-        await this.page.goto(env.baseURL);
-    }
+   async openApp() {
+    await this.page.goto(env.baseURL, {
+        waitUntil: 'domcontentloaded',
+        timeout: 60000
+    });
+}
 
     async goToProducts() {
         await elementUtils.click(this.page, this.productsBtn);
