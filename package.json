@@ -4,8 +4,8 @@
   "description": "Scalable End-to-End Test Automation Framework built using Playwright with Cucumber (BDD) approach.",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js --require ./step-definitions/**/*.js --require ./hooks/**/*.js --format progress --retry 2",
-    "test:headless": "set HEADLESS=true&& cucumber-js --require ./step-definitions/**/*.js --require ./hooks/**/*.js --format progress --retry 2",
+    "test": "cucumber-js --require ./step-definitions/**/*.js --require ./hooks/**/*.js --format progress",
+    "test:headless": "set HEADLESS=true&& cucumber-js --require ./step-definitions/**/*.js --require ./hooks/**/*.js --format progress",
     "test:rerun": "cucumber-js @rerun.txt --require ./step-definitions/**/*.js --require ./hooks/**/*.js --format progress"
   },
   "keywords": [],
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "allure-commandline": "^2.40.0",
-    "allure-cucumberjs": "^3.7.2",
+    "allure-cucumberjs": "^3.7.0",
     "cucumber-html-reporter": "^7.2.0"
   }
 }
