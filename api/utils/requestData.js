@@ -21,6 +21,13 @@ class RequestData {
             password: authTestData.missingEmailUser.password
         };
     }
+
+    getInvalidCredentials() {
+        return {
+            email: 'invaliduser@example.com',
+            password: 'Invalid@12345'
+        };
+    }
 }
 
 module.exports = new RequestData();
