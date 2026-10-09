@@ -1,261 +1,193 @@
+
 # SDET Playwright Automation Framework
 
-A maintainable end-to-end test automation framework built with **Playwright, JavaScript and Cucumber BDD**, designed to demonstrate real-world QA automation practices.
-
-The framework covers UI automation, reusable Page Object Model design, test data management, authentication using Playwright Storage State, failure debugging, reporting and CI/CD integration.
-
----
+A maintainable UI and API test automation framework built with Playwright, JavaScript and Cucumber BDD. Designed to demonstrate practical QA automation practices, reusable architecture, functional testing and CI/CD integration.
 
 ## Tech Stack
 
-- Playwright
-- JavaScript (ES6+)
+- Playwright — UI and API automation
+- JavaScript (ES6+) and Node.js
 - Cucumber BDD
-- Node.js
 - Page Object Model (POM)
-- Git & GitHub
-- GitHub Actions
-- Faker.js
-- REST API Automation (In Progress)
-
----
+- AJV — JSON schema validation
+- Faker.js — dynamic test data
+- Git and GitHub
+- GitHub Actions — CI/CD
+- Selenium WebDriver with Java — additional automation experience
 
 ## Key Features
 
-- UI automation using Playwright
-- BDD automation using Cucumber
-- Page Object Model architecture
-- Reusable utility classes
-- Cross-browser support
-- Positive and negative test scenarios
-- Dynamic test data using Faker.js
+- UI automation with reusable page objects
+- Cucumber BDD scenarios and step definitions
+- Positive and negative testing
+- Reusable API client and response validators
+- API response code, message, field and schema validation
+- Dynamic test data generation with Faker.js
 - Playwright Storage State authentication
-- Screenshot capture on failure
 - Configurable browser execution
-- Retry failed scenarios
-- Logging and debugging support
-- CI/CD with GitHub Actions
-- API automation expansion
-
----
+- Logging and failure screenshots
+- Environment-based configuration
+- GitHub Actions integration
 
 ## Automation Coverage
 
 ### UI Automation
 
-Current automated workflows include:
+Automated workflows include:
 
-- User Registration
-- Login
-- Negative Login Scenarios
-- Logout
-- Product Navigation
-- Product Details
-- Cart Operations
-- Cart Quantity Verification
-- Cart Price Verification
-- End-to-End E-commerce Scenarios
+- Registration, login and negative login scenarios
+- Logout and authenticated session handling
+- Product navigation and product details
+- Add-to-cart and cart quantity validation
+- Cart price and total price validation
+- Product search and category filtering
 
-### Authentication
+### API Automation
 
-The framework supports **Playwright Storage State** for reusing authenticated sessions.
+API coverage is being expanded using Playwright API request capabilities and Cucumber BDD.
+
+Current coverage includes:
+
+- Products and brands listing
+- Product search and missing-parameter validation
+- Login validation, including invalid credentials and unsupported methods
+- Account creation, duplicate email and missing-field validation
+- Account update and deletion
+- User details retrieval
+- Response codes, messages, content types and response-time checks
+- JSON schema and required-field validation
+
+API scenarios are being finalized and will be regression-verified before the suite is marked complete.
+
+## Framework Architecture
 
 ```text
-auth/
-├── setupAuth.js
-└── auth.json
-
-auth.json contains local authentication/session data and should not be committed to GitHub.
-API Automation
-API automation is being added using Playwright API capabilities.
-Planned coverage includes:
-- GET requests
-- POST requests
-- Request and response validation
-- Status code validation
-- Positive API scenarios
-- Negative API scenarios
-- JSON response validation
-- API test data management
-Framework Architecture
 sdet-playwright-automation-framework/
-│
+├── api/
+│   ├── clients/
+│   ├── schemas/
+│   ├── test-data/
+│   └── utils/
 ├── auth/
-│   ├── setupAuth.js
-│   └── auth.json
-│
 ├── config/
-│   └── env.js
-│
 ├── features/
-│   ├── login.feature
-│   ├── login-negative.feature
-│   ├── cartQuantity.feature
-│   ├── cartTotalPrice.feature
-│   └── ...
-│
+├── fixtures/
 ├── hooks/
-│   └── hooks.js
-│
 ├── pages/
-│   ├── LoginPage.js
-│   ├── SignupPage.js
-│   ├── ProductPage.js
-│   ├── ProductDetailsPage.js
-│   └── ...
-│
 ├── step-definitions/
-│   ├── loginSteps.js
-│   ├── cartQuantity.steps.js
-│   ├── cartTotalPrice.steps.js
-│   └── ...
-│
-├── utils/
-│   ├── elementUtils.js
-│   ├── waitUtils.js
-│   ├── assertUtils.js
-│   ├── fakerUtils.js
-│   └── logger.js
-│
 ├── test-data/
-│   └── loginData.json
-│
-├── logs/
-├── reports/
+├── utils/
+├── .github/workflows/
 ├── .env
 ├── .gitignore
 ├── cucumber.js
 ├── package.json
+├── Jenkinsfile
 └── README.md
+```
 
-Page Object Model
-The framework follows the Page Object Model (POM) design pattern.
-Each application page has its own class containing:
-- Locators
-- Page actions
-- Reusable methods
-- Validation methods
-This improves maintainability, reusability, readability and scalability.
+## Design & Test Data
 
-Reusable Utilities
-Common Playwright operations are centralized inside the utility layer.
-Examples:
-- Click
-- Type / Fill
-- Clear and Type
-- Get Text
-- Visibility Checks
-- Wait for Element
-- Dropdown Selection
-- Hover
-- Double Click
-- Get Attribute
-This keeps step definitions clean and reduces duplicate automation code.
+- **Page Object Model:** separates page locators and actions from test steps.
+- **Reusable utilities:** centralizes common browser interactions and assertions.
+- **API client and validators:** reduce duplicated request and response-validation code.
+- **Faker.js:** generates dynamic test data for account workflows.
+- **Environment configuration:** supports configurable execution settings.
+- **AJV schema validation:** validates API response structures against defined schemas.
 
-Test Data
-Test data is managed separately from test logic.
-Current framework uses:
-- JSON test data
-- Faker.js for dynamic data generation
-- Environment variables using .env
-test-data/
-└── loginData.json
+## Getting Started
 
-Browser Support
-The framework supports:
-- Chromium
-- Firefox
-- WebKit
-Browser can be configured using:
-BROWSER=chromium
+### Install dependencies
 
-Execution
-Install Dependencies
+```bash
 npm install
+```
 
-Run All Tests
+Install the required Playwright browser if it is not already available:
+
+```bash
+npx playwright install chromium
+```
+
+### Run all tests
+
+```bash
 npm test
+```
 
-Run a Specific Feature
+### Run a specific feature
+
+```bash
 npm test -- features/login.feature
+```
 
-Run a Specific Scenario Using Tags
+### Run tagged scenarios
+
+```bash
 npx cucumber-js --tags "@login"
+```
 
-Run Tests in Headed Mode
-PowerShell:
+### Run in headed mode (PowerShell)
+
+```powershell
 $env:HEADLESS="false"; npm test
+```
 
-Run Failed Scenarios
-npm run test:rerun
+Use the feature path that matches the feature you want to execute.
 
-Authentication Setup
-Create the Playwright authenticated storage state using:
+## Authentication
+
+The framework supports Playwright Storage State for authenticated sessions.
+
+```bash
 node auth/setupAuth.js
+```
 
-The browser will open for manual authentication.
-After successful login, press ENTER in the terminal.
-The authentication state will be saved to:
-auth/auth.json
+Complete the manual login when prompted. The generated authentication state is stored locally and should not be committed to GitHub.
 
-auth/auth.json should remain excluded through .gitignore.
-Debugging & Reporting
-The framework supports:
-- Failure screenshots
-- Application logs
-- Cucumber reports
-- Playwright debugging
-- Retry mechanism
-Failure screenshots are automatically captured when a scenario fails.
-CI/CD
-GitHub Actions is integrated for automated test execution.
-The pipeline supports:
-- Automated test execution
-- Headless browser execution
-- Test result reporting
-- Failure debugging artifacts
-Current Project Status
-Area	Status
-Playwright UI Automation	Completed
-Cucumber BDD	Completed
-Page Object Model	Completed
-Reusable Utilities	Completed
-Positive Testing	Completed
-Negative Testing	Completed
-Cart Automation	Completed
-Storage State Authentication	Completed
-Dynamic Test Data	Completed
-Logging	Completed
-Failure Screenshots	Completed
-GitHub Actions	Integrated
-API Automation	In Progress
-Allure Reporting	Planned
-Jenkins Integration	Planned
+## CI/CD
 
+GitHub Actions integration is present for automated test execution.
 
-Future Enhancements
-- Expand REST API automation
-- API + UI end-to-end scenarios
-- Allure reporting
-- Jenkins pipeline
-- Advanced test data management
-- Parallel execution optimization
-- Additional API negative and security scenarios
-Project Highlights
-This project demonstrates practical experience with:
-- Playwright UI automation
-- Cucumber BDD
-- JavaScript automation
-- Page Object Model
-- Reusable automation architecture
-- Authentication state management
-- Functional and negative testing
-- Test data generation
-- CI/CD automation
-- Debugging and reporting
-- API automation
+The framework also contains a Jenkins pipeline file. Further pipeline validation and reporting improvements remain part of the enhancement roadmap.
 
-Author
-Shivam Sarode
+## Project Status
+
+| Area | Status |
+|---|---|
+| Playwright UI automation | Implemented |
+| Cucumber BDD and POM | Implemented |
+| Reusable utilities | Implemented |
+| Positive and negative UI testing | Implemented |
+| Dynamic test data with Faker.js | Implemented |
+| API automation | Implemented; final regression pending |
+| API schema and response validation | Implemented |
+| Logging and failure screenshots | Implemented |
+| GitHub Actions | Integrated |
+| Jenkins pipeline | Present; further validation pending |
+| Allure reporting | Planned |
+| Docker-based execution | Planned |
+| Playwright MCP / AI-assisted testing | Planned |
+| Architecture documentation and portfolio evidence | In progress |
+
+## Roadmap
+
+- Complete and verify API regression coverage
+- Stabilize remaining UI tests and protect the green baseline
+- Improve test reporting and execution artifacts
+- Validate CI/CD workflows end to end
+- Add Docker-based execution
+- Explore Playwright MCP and AI-assisted testing
+- Publish architecture documentation and execution evidence
+
+## Project Highlights
+
+This project demonstrates practical implementation of UI and API automation, reusable framework design, BDD, dynamic test data, negative testing, response validation and CI/CD integration.
+
+## Author
+
+**Shivam Sarode**  
 QA Automation Engineer | SDET
-Skills: Playwright | Selenium | Java | JavaScript | TypeScript | Cucumber | API Testing | Jenkins | GitHub Actions
+
+GitHub: [sdet-playwright-automation-framework](https://github.com/shivsarode/sdet-playwright-automation-framework)  
+LinkedIn: [Shivam Sarode](https://www.linkedin.com/in/shivam-sarode-778443319/)
