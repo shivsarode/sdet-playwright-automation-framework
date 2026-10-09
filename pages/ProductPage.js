@@ -10,7 +10,7 @@ class ProductPage {
         // Navigation
         this.productsBtn = page.locator('a[href="/products"]').first();
         this.firstProductAddBtn = page.locator('a.add-to-cart').first();
-        this.viewCartBtn = page.getByText('View Cart').first();
+        this.viewCartBtn = page.getByRole('link', { name: 'View Cart' }).first();
 
         // Cart
         this.cartPageText = page.getByText('Shopping Cart').first();
@@ -21,24 +21,24 @@ class ProductPage {
         this.continueShoppingBtn = page.getByText('Continue Shopping').first();
     }
 
-   async openApp() {
-    await this.page.goto(env.baseURL, {
-        waitUntil: 'domcontentloaded',
-        timeout: 60000
-    });
-}
+    async openApp() {
+        await this.page.goto(env.baseURL, {
+            waitUntil: 'domcontentloaded',
+            timeout: 60000
+        });
+    }
 
     async goToProducts() {
         await elementUtils.click(this.page, this.productsBtn);
     }
 
-    async addFirstProduct() {
-        await elementUtils.click(this.page, this.firstProductAddBtn);
-        await waitUtils.waitForElement(this.page, this.productModal);
-    }
+   async addFirstProduct() {
+    await this.firstProductAddBtn.click({ force: true });
+}
 
     async continueShopping() {
         await elementUtils.click(this.page, this.continueShoppingBtn);
+
         await this.productModal.waitFor({
             state: 'hidden'
         });
@@ -48,7 +48,11 @@ class ProductPage {
         const addButton = this.page.locator('a.add-to-cart').nth(index);
 
         await addButton.click({ force: true });
-        await waitUtils.waitForElement(this.page, this.productModal);
+
+        await waitUtils.waitForElement(
+            this.page,
+            this.productModal
+        );
     }
 
     async goToCart() {

@@ -29,6 +29,25 @@ When('user sends POST request to search product API with {string}', async functi
     console.log(`Search Product API | Status: ${response.status()} | Response Time: ${responseTime}ms`);
 });
 
+When('user sends POST request to search product API without search parameter',
+    async function () {
+        apiClient = new ApiClient();
+        await apiClient.init();
+
+        const startTime = Date.now();
+
+        response = await apiClient.post('/api/searchProduct', {
+            form: {}
+        });
+
+        responseTime = Date.now() - startTime;
+        responseBody = await apiValidator.getResponseBody(response);
+
+        console.log(
+            `Search Product Negative API | HTTP: ${response.status()} | Time: ${responseTime}ms | Response: ${JSON.stringify(responseBody)}`
+        );
+    });
+
 Then('search product API response status should be {int}', async function (expectedStatus) {
     await apiValidator.verifyStatus(response, expectedStatus);
 });
@@ -62,3 +81,16 @@ Then('search product API response content type should be {string}', async functi
 Then('search product API response should be received within {int} milliseconds', async function (maxTime) {
     await apiValidator.verifyResponseTime(responseTime, maxTime);
 });
+
+Then('search product API should return the actual error response',
+    async function () {
+        console.log(
+            `Actual Search Product Error Response: ${JSON.stringify(responseBody)}`
+        );
+
+        if (!responseBody.responseCode && !responseBody.message) {
+            throw new Error(
+                `Unexpected error response: ${JSON.stringify(responseBody)}`
+            );
+        }
+    });

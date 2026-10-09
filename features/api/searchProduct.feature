@@ -14,3 +14,7 @@ Feature: Search Product API
   Scenario: Verify search product response time
     When user sends POST request to search product API with "top"
     Then search product API response should be received within 3000 milliseconds
+
+  Scenario: Search products without search parameter
+    When user sends POST request to search product API without search parameter
+    Then search product API should return the actual error response

@@ -14,3 +14,16 @@ Feature: Verify Login API
     When user sends DELETE request to verify login API
     Then verify login API response status should be 200
     And verify login API response should contain method not supported message
+
+    Scenario: Verify login with valid credentials
+    When user creates an account and logs in with valid credentials
+    Then verify login API response status should be 200
+    And verify login API should contain user exists message
+
+  Scenario: Verify login response content type
+    When user creates an account and logs in with valid credentials
+    Then verify login API response content type should be "text/html"
+
+  Scenario: Verify login response time
+    When user creates an account and logs in with valid credentials
+    Then verify login API response should be received within 3000 milliseconds

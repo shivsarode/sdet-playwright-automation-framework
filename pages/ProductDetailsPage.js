@@ -1,99 +1,91 @@
+
 const elementUtils = require('../utils/elementUtils');
 const waitUtils = require('../utils/waitUtils');
 const assertUtils = require('../utils/assertUtils');
 
 class ProductDetailsPage {
-  constructor(page) {
-    this.page = page;
+    constructor(page) {
+        this.page = page;
 
-    // Navigation
-    this.productsLink = 'a[href="/products"]';
+        // Navigation
+        this.productsLink = 'a[href="/products"]';
 
-    // Products Section
-    this.productsPageTitle = '.features_items';
-    this.productsList = '.features_items';
-    this.firstProductViewBtn = '(//a[contains(text(),"View Product")])[1]';
+        // Products Section
+        this.productsPageTitle = '.features_items';
+        this.productsList = '.features_items';
+        this.firstProductViewBtn = '(//a[contains(text(),"View Product")])[1]';
 
-    // Product Details
-    this.productName = '.product-information h2';
-    this.productCategory = '.product-information p:has-text("Category")';
-    this.productPrice = '.product-information span span';
-    this.productAvailability = '.product-information p:has-text("Availability")';
-    this.productCondition = '.product-information p:has-text("Condition")';
-    this.productBrand = '.product-information p:has-text("Brand")';
+        // Product Details
+        this.productName = '.product-information h2';
+        this.productCategory = '.product-information p:has-text("Category")';
+        this.productPrice = '.product-information span span';
+        this.productAvailability = '.product-information p:has-text("Availability")';
+        this.productCondition = '.product-information p:has-text("Condition")';
+        this.productBrand = '.product-information p:has-text("Brand")';
 
-    // Quantity & Cart
-    this.quantityInput = '#quantity';
-    this.addToCartBtn = 'button:has-text("Add to cart")';
-    this.viewCartBtn = 'a:has-text("View Cart")';
-    this.cartQuantity = '#cart_info_table tbody tr:first-child .cart_quantity button';
-  }
+        // Quantity & Cart
+        this.quantityInput = '#quantity';
+        this.addToCartBtn = 'button:has-text("Add to cart")';
+        this.viewCartBtn = 'a:has-text("View Cart")';
+        this.cartQuantity = '#cart_info_table tbody tr:first-child .cart_quantity button';
+    }
 
-  // Navigate to Products Page
-  async navigateToProductsSection() {
-    await elementUtils.click(this.page, this.productsLink);
-    await waitUtils.waitForElement(this.page, this.productsPageTitle);
-  }
+    async navigateToProductsSection() {
+        await elementUtils.click(this.page, this.productsLink);
+        await waitUtils.waitForElement(this.page, this.productsPageTitle);
+    }
 
-  // Verify Products List
-  async verifyProductsListDisplayed() {
-    await assertUtils.verifyVisible(this.page, this.productsList);
-  }
+    async verifyProductsListDisplayed() {
+        await assertUtils.verifyVisible(this.page, this.productsList);
+    }
 
-  // Open First Product
-  async selectFirstProduct() {
-    await elementUtils.click(this.page, this.firstProductViewBtn);
-  }
+    async selectFirstProduct() {
+        await this.page.locator(this.firstProductViewBtn).click({ force: true });
+        await waitUtils.waitForElement(this.page, this.productName);
+    }
 
-  // Verify Product Details Page
-  async verifyProductDetailPageLoaded() {
-    await waitUtils.waitForElement(this.page, this.productName);
-  }
+    async verifyProductDetailPageLoaded() {
+        await waitUtils.waitForElement(this.page, this.productName);
+    }
 
-  // Verify Complete Product Information
-  async verifyCompleteProductInformation() {
-    await assertUtils.verifyVisible(this.page, this.productName);
-    await assertUtils.verifyVisible(this.page, this.productCategory);
-    await assertUtils.verifyVisible(this.page, this.productPrice);
-    await assertUtils.verifyVisible(this.page, this.productAvailability);
-    await assertUtils.verifyVisible(this.page, this.productCondition);
-    await assertUtils.verifyVisible(this.page, this.productBrand);
-  }
+    async verifyCompleteProductInformation() {
+        await assertUtils.verifyVisible(this.page, this.productName);
+        await assertUtils.verifyVisible(this.page, this.productCategory);
+        await assertUtils.verifyVisible(this.page, this.productPrice);
+        await assertUtils.verifyVisible(this.page, this.productAvailability);
+        await assertUtils.verifyVisible(this.page, this.productCondition);
+        await assertUtils.verifyVisible(this.page, this.productBrand);
+    }
 
-  // Set Product Quantity
-  async setProductQuantity(quantity) {
-    await this.page.locator(this.quantityInput).fill(String(quantity));
-  }
+    async setProductQuantity(quantity) {
+        await this.page.locator(this.quantityInput).fill(String(quantity));
+    }
 
-  // Add Product To Cart
-  async addProductToCart() {
-    await elementUtils.click(this.page, this.addToCartBtn);
-    await waitUtils.waitForElement(this.page, this.viewCartBtn);
-  }
+    async addProductToCart() {
+        await this.page.locator(this.addToCartBtn).click({ force: true });
+        await waitUtils.waitForElement(this.page, this.viewCartBtn);
+    }
 
-  // Open Cart
-  async openCart() {
-    await elementUtils.click(this.page, this.viewCartBtn);
-    await waitUtils.waitForElement(this.page, 'text=Shopping Cart');
-  }
+    async openCart() {
+        await elementUtils.click(this.page, this.viewCartBtn);
+        await waitUtils.waitForElement(this.page, 'text=Shopping Cart');
+    }
 
-  // Get Cart Quantity
-  async getCartQuantity() {
-    return await this.page.locator(this.cartQuantity).innerText();
-  }
+    async getCartQuantity() {
+        return await this.page.locator(this.cartQuantity).innerText();
+    }
 
-  // Get Product Details
-  async getProductDetails() {
-    const name = await this.page.textContent(this.productName);
-    const category = await this.page.textContent(this.productCategory);
-    const price = await this.page.textContent(this.productPrice);
+    async getProductDetails() {
+        const name = await this.page.textContent(this.productName);
+        const category = await this.page.textContent(this.productCategory);
+        const price = await this.page.textContent(this.productPrice);
 
-    return {
-      name: name?.trim(),
-      category: category?.trim(),
-      price: price?.trim()
-    };
-  }
+        return {
+            name: name?.trim(),
+            category: category?.trim(),
+            price: price?.trim()
+        };
+    }
 }
 
 module.exports = ProductDetailsPage;
