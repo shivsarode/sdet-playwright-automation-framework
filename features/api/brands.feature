@@ -2,7 +2,7 @@ Feature: Brands API
 
   Scenario: Get all brands successfully
     When user sends GET request to all brands API
-    Then brands API response status should be 200
+    Then brands API response status should Be 200
     And brands API response should contain brands
     And brands API response should contain valid brand details
 
