@@ -10,7 +10,7 @@ const ProductPage = require('../pages/ProductPage');
 
 setDefaultTimeout(60000);
 
-Given('user opens automation exercise website for product filtering', async function () {
+Given('user opens automation exercise websit.e for product filtering', async function () {
 
   this.productPage = new ProductPage(this.page);
 
