@@ -5,7 +5,7 @@ class AccountTestData {
     generateUser() {
         return {
             name: faker.person.fullName(),
-            email: faker.internet.email(),
+            email: `qa_${Date.now()}_${faker.string.alphanumeric(6).toLowerCase()}@example.com`,
             password: faker.internet.password({ length: 12 }),
             title: 'Mr',
             birth_date: '10',

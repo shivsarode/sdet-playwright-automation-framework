@@ -40,10 +40,12 @@ class ProductDetailsPage {
     }
 
     async selectFirstProduct() {
-        await this.page.locator(this.firstProductViewBtn).click({ force: true });
-        await waitUtils.waitForElement(this.page, this.productName);
-    }
+    await this.page.locator(this.firstProductViewBtn).first().click();
 
+    await this.page.waitForLoadState('domcontentloaded').catch(() => {});
+
+    await waitUtils.waitForElement(this.page, this.productName);
+}
     async verifyProductDetailPageLoaded() {
         await waitUtils.waitForElement(this.page, this.productName);
     }
