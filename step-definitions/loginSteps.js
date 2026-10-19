@@ -18,7 +18,7 @@ Given('user opens website', async function () {
 
     logger.info('Launching application');
 
-    await this.page.goto(config.baseURL);
+    await this.page.goto(config.baseURL, { waitUntil: 'domcontentloaded' });
 
     signupPage = new SignupPage(this.page);
     loginPage = new LoginPage(this.page);

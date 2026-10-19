@@ -34,11 +34,6 @@ class ProductPage {
     
 async addFirstProduct() {
     await this.firstProductAddBtn.click({ force: true });
-
-    await this.productModal.waitFor({
-        state: 'visible',
-        timeout: 15000
-    });
 }
     async continueShopping() {
         await elementUtils.click(this.page, this.continueShoppingBtn);
