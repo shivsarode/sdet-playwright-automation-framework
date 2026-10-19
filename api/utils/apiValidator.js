@@ -1,3 +1,4 @@
+
 const { expect } = require('@playwright/test');
 
 class ApiValidator {
@@ -25,15 +26,20 @@ class ApiValidator {
     }
 
     async verifyArray(body, fieldName) {
+        expect(body).toHaveProperty(fieldName);
         expect(body[fieldName]).toBeInstanceOf(Array);
     }
 
     async verifyArrayNotEmpty(body, fieldName) {
+        expect(body).toHaveProperty(fieldName);
+        expect(body[fieldName]).toBeInstanceOf(Array);
         expect(body[fieldName].length).toBeGreaterThan(0);
     }
 
     async verifyObjectFields(object, fields) {
-        fields.forEach(field => expect(object).toHaveProperty(field));
+        fields.forEach(field => {
+            expect(object).toHaveProperty(field);
+        });
     }
 
     async verifyContentType(response, expectedType = 'application/json') {
