@@ -4,172 +4,99 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const {
+    BeforeAll,
     Before,
     After,
-    BeforeAll,
     AfterAll
 } = require('@cucumber/cucumber');
 
 const { chromium, firefox, webkit } = require('playwright');
 const logger = require('../utils/logger');
 
-const browserTypes = { chromium, firefox, webkit };
+const browsers = { chromium, firefox, webkit };
+const browserName = (process.env.BROWSER || 'chromium').toLowerCase();
 
-const logsDir = path.resolve('logs');
-const videosDir = path.join(logsDir, 'videos');
-const tracesDir = path.join(logsDir, 'traces');
-const screenshotsDir = path.join(logsDir, 'screenshots');
+if (!Object.hasOwn(browsers, browserName)) {
+    throw new Error(
+        `Invalid BROWSER="${browserName}". Use chromium, firefox, or webkit.`
+    );
+}
 
-[logsDir, videosDir, tracesDir, screenshotsDir].forEach(dir => {
+const videoDir = path.resolve('logs/videos');
+const traceDir = path.resolve('logs/traces');
+const screenshotDir = path.resolve('logs/screenshots');
+
+[videoDir, traceDir, screenshotDir].forEach((dir) => {
     fs.mkdirSync(dir, { recursive: true });
 });
-
-const videoEnabled = process.env.VIDEO === 'true';
-const traceEnabled = process.env.TRACE === 'true';
 
 let browser;
 
 BeforeAll(async function () {
-    const browserType = process.env.BROWSER || 'chromium';
-
-    if (!browserTypes[browserType]) {
-        throw new Error(`Unsupported browser: ${browserType}`);
-    }
-
-    browser = await browserTypes[browserType].launch({
+    browser = await browsers[browserName].launch({
         headless: process.env.HEADLESS !== 'false',
         slowMo: Number(process.env.SLOW_MO) || 0
     });
 
-    logger.info(`Browser launched: ${browserType}`);
+    logger.info(`Browser launched: ${browserName}`);
 });
 
-Before(async function (scenario) {
-    logger.info(`Scenario Started: ${scenario.pickle.name}`);
-
-    this.browser = browser;
+Before(async function () {
     this.apiClients = [];
 
-    const authPath = path.resolve('auth/auth.json');
+    this.context = await browser.newContext({
+        ...(process.env.VIDEO === 'true' && {
+            recordVideo: { dir: videoDir }
+        })
+    });
 
-    const contextOptions = {
-        viewport: null,
-        ...(fs.existsSync(authPath)
-            ? { storageState: authPath }
-            : {})
-    };
-
-    if (videoEnabled) {
-        contextOptions.recordVideo = {
-            dir: videosDir,
-            size: { width: 1280, height: 720 }
-        };
-    }
-
-    this.context = await browser.newContext(contextOptions);
     this.page = await this.context.newPage();
 
-    if (traceEnabled) {
+    if (process.env.TRACE === 'true') {
         await this.context.tracing.start({
             screenshots: true,
-            snapshots: true,
-            sources: true
+            snapshots: true
         });
     }
 });
 
 After(async function (scenario) {
     const failed = scenario.result?.status === 'FAILED';
-    const safeName = scenario.pickle.name
-        .replace(/[^a-z0-9-_]/gi, '_')
-        .slice(0, 80);
+    const scenarioName = scenario.pickle.name.replace(/[^a-z0-9]/gi, '_');
+    const artifactId = `${Date.now()}-${scenarioName}`;
 
-    const uniqueId = `${Date.now()}-${process.pid}`;
-
-    const screenshotPath = path.join(
-        screenshotsDir,
-        `${uniqueId}-${safeName}.png`
-    );
-
-    const tracePath = path.join(
-        tracesDir,
-        `${uniqueId}-${safeName}.zip`
-    );
-
-    const videoPath = path.join(
-        videosDir,
-        `${uniqueId}-${safeName}.webm`
-    );
-
-    try {
-        if (failed && this.page) {
-            logger.error(`Scenario FAILED: ${scenario.pickle.name}`);
-
-            await this.page.screenshot({
-                path: screenshotPath,
-                fullPage: true
-            });
-
-            if (typeof this.attach === 'function') {
-                await this.attach(
-                    fs.readFileSync(screenshotPath),
-                    'image/png'
-                );
-            }
-        }
-
-        if (traceEnabled && this.context) {
-            await this.context.tracing.stop({
-                path: tracePath
-            });
-
-            if (failed && typeof this.attach === 'function') {
-                await this.attach(
-                    fs.readFileSync(tracePath),
-                    'application/zip'
-                );
-            }
-        }
-    } catch (error) {
-        logger.error(`Artifact capture failed: ${error.message}`);
-    } finally {
-        try {
-            await this.page?.close();
-
-            if (videoEnabled && this.page) {
-                const video = this.page.video();
-
-                if (video) {
-                    await video.saveAs(videoPath);
-
-                    if (failed && typeof this.attach === 'function') {
-                        await this.attach(
-                            fs.readFileSync(videoPath),
-                            'video/webm'
-                        );
-                    }
-                }
-            }
-        } catch (error) {
-            logger.error(`Video finalization failed: ${error.message}`);
-        }
-
-        try {
-            await this.context?.close();
-        } catch (error) {
-            logger.error(`Browser context cleanup failed: ${error.message}`);
-        }
-
-        try {
-            for (const client of this.apiClients || []) {
-                await client.dispose();
-            }
-        } catch (error) {
-            logger.error(`API client cleanup failed: ${error.message}`);
-        }
-
-        logger.info(`Scenario Finished: ${scenario.pickle.name}`);
+    if (failed && this.page) {
+        await this.page.screenshot({
+            path: path.join(screenshotDir, `${artifactId}.png`),
+            fullPage: true
+        }).catch((error) => {
+            logger.error(`Screenshot capture failed: ${error.message}`);
+        });
     }
+
+    if (process.env.TRACE === 'true' && this.context) {
+        await this.context.tracing.stop({
+            path: path.join(traceDir, `${artifactId}.zip`)
+        }).catch((error) => {
+            logger.error(`Trace capture failed: ${error.message}`);
+        });
+    }
+
+    await this.page?.close().catch((error) => {
+        logger.error(`Page cleanup failed: ${error.message}`);
+    });
+
+    await this.context?.close().catch((error) => {
+        logger.error(`Browser context cleanup failed: ${error.message}`);
+    });
+
+    for (const client of this.apiClients || []) {
+        await client.dispose().catch((error) => {
+            logger.error(`API client cleanup failed: ${error.message}`);
+        });
+    }
+
+    logger.info(`Scenario finished: ${scenario.pickle.name}`);
 });
 
 AfterAll(async function () {
