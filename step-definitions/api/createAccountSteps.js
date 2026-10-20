@@ -1,3 +1,4 @@
+
 const { When, Then, setDefaultTimeout } = require('@cucumber/cucumber');
 const ApiClient = require('../../api/clients/apiClient');
 const apiValidator = require('../../api/utils/apiValidator');
@@ -13,6 +14,11 @@ let responseTime;
 async function sendCreateAccountRequest(payload) {
     apiClient = new ApiClient();
     await apiClient.init();
+
+    // Register client for cleanup in hooks
+    const world = this;
+    world.apiClients = world.apiClients || [];
+    world.apiClients.push(apiClient);
 
     const startTime = Date.now();
 
@@ -32,53 +38,53 @@ async function sendUserWithoutField(field) {
     const user = accountTestData.generateUser();
     delete user[field];
 
-    await sendCreateAccountRequest(user);
+    await sendCreateAccountRequest.call(this, user);
 }
 
 When('user sends POST request to create account API with unique user data', async function () {
     accountTestData.currentUser = accountTestData.generateUser();
-    await sendCreateAccountRequest(accountTestData.currentUser);
+    await sendCreateAccountRequest.call(this, accountTestData.currentUser);
 });
 
 When('user sends POST request to create account API with existing user email', async function () {
     const user = accountTestData.generateUser();
 
-    await sendCreateAccountRequest({
+    await sendCreateAccountRequest.call(this, {
         ...user,
         email: accountTestData.currentUser.email
     });
 });
 
 When('user sends POST request to create account API without email', async function () {
-    await sendUserWithoutField('email');
+    await sendUserWithoutField.call(this, 'email');
 });
 
 When('user sends POST request to create account API without password', async function () {
-    await sendUserWithoutField('password');
+    await sendUserWithoutField.call(this, 'password');
 });
 
 When('user sends POST request to create account API without name', async function () {
-    await sendUserWithoutField('name');
+    await sendUserWithoutField.call(this, 'name');
 });
 
 When('user sends POST request to create account API without first name', async function () {
-    await sendUserWithoutField('firstname');
+    await sendUserWithoutField.call(this, 'firstname');
 });
 
 When('user sends POST request to create account API without last name', async function () {
-    await sendUserWithoutField('lastname');
+    await sendUserWithoutField.call(this, 'lastname');
 });
 
 When('user sends POST request to create account API without country', async function () {
-    await sendUserWithoutField('country');
+    await sendUserWithoutField.call(this, 'country');
 });
 
 When('user sends POST request to create account API without zipcode', async function () {
-    await sendUserWithoutField('zipcode');
+    await sendUserWithoutField.call(this, 'zipcode');
 });
 
 When('user sends POST request to create account API without mobile number', async function () {
-    await sendUserWithoutField('mobile_number');
+    await sendUserWithoutField.call(this, 'mobile_number');
 });
 
 Then('create account API should return response code {int}', async function (expectedCode) {
@@ -113,7 +119,6 @@ Then('create account API should contain validation failure message', async funct
             `Expected validation responseCode 400 but received ${responseBody.responseCode}`
         );
     }
-
 });
 
 Then('create account API response time should be within {int} milliseconds', async function (maxTime) {
