@@ -34,15 +34,17 @@ class ProductPage {
     
 async addFirstProduct() {
     await this.firstProductAddBtn.click({ force: true });
+
+    await this.productModal.waitFor({
+        state: 'visible',
+        timeout: 15000
+    });
+
+    await this.viewCartBtn.waitFor({
+        state: 'visible',
+        timeout: 15000
+    });
 }
-    async continueShopping() {
-        await elementUtils.click(this.page, this.continueShoppingBtn);
-
-        await this.productModal.waitFor({
-            state: 'hidden'
-        });
-    }
-
     async addProductByIndex(index) {
         const addButton = this.page.locator('a.add-to-cart').nth(index);
 
