@@ -11,6 +11,7 @@ const {
 } = require('@cucumber/cucumber');
 
 const { chromium, firefox, webkit } = require('playwright');
+const ApiClient = require('../api/clients/apiClient');
 const logger = require('../utils/logger');
 
 const browsers = { chromium, firefox, webkit };
@@ -90,11 +91,11 @@ After(async function (scenario) {
         logger.error(`Browser context cleanup failed: ${error.message}`);
     });
 
-    for (const client of this.apiClients || []) {
-        await client.dispose().catch((error) => {
-            logger.error(`API client cleanup failed: ${error.message}`);
-        });
-    }
+    const cleanupErrors = await ApiClient.disposeAll();
+
+    cleanupErrors.forEach((error) => {
+        logger.error(`API client cleanup failed: ${error.message}`);
+    });
 
     logger.info(`Scenario finished: ${scenario.pickle.name}`);
 });
