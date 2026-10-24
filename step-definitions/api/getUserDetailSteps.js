@@ -1,3 +1,4 @@
+
 const { When, Then, setDefaultTimeout } = require('@cucumber/cucumber');
 const ApiClient = require('../../api/clients/apiClient');
 const apiValidator = require('../../api/utils/apiValidator');
@@ -25,7 +26,9 @@ async function createTestUser() {
     const body = await createResponse.json();
 
     if (body.responseCode !== 201) {
-        throw new Error(`User creation failed: ${JSON.stringify(body)}`);
+        throw new Error(
+            `Test user creation failed: ${JSON.stringify(body)}`
+        );
     }
 
     return user;
@@ -42,44 +45,61 @@ async function getUserDetails(email) {
     responseBody = await apiValidator.getResponseBody(response);
 }
 
-When('user sends GET request to get user detail API with valid email',
+When(
+    'user sends GET request to get user detail API with valid email',
     async function () {
         await initClient();
         const user = await createTestUser();
         await getUserDetails(user.email);
-    });
+    }
+);
 
-When('user sends GET request to get user detail API with invalid email',
+When(
+    'user sends GET request to get user detail API with invalid email',
     async function () {
         await initClient();
         await getUserDetails('invaliduser@example.com');
-    });
+    }
+);
 
-When('user sends GET request to get user detail API without email',
+When(
+    'user sends GET request to get user detail API without email',
     async function () {
         await initClient();
-        response = await apiClient.get('/api/getUserDetailByEmail');
-        responseBody = await apiValidator.getResponseBody(response);
-    });
 
-When('user sends GET request to get user detail API with empty email',
+        const startTime = Date.now();
+        response = await apiClient.get('/api/getUserDetailByEmail');
+        responseTime = Date.now() - startTime;
+
+        responseBody = await apiValidator.getResponseBody(response);
+    }
+);
+
+When(
+    'user sends GET request to get user detail API with empty email',
     async function () {
         await initClient();
         await getUserDetails('');
-    });
+    }
+);
 
-Then('get user detail API should return response code {int}',
+Then(
+    'get user detail API should return response code {int}',
     async function (expectedCode) {
         await apiValidator.verifyResponseCode(response, expectedCode);
-    });
+    }
+);
 
-Then('get user detail API should contain valid user details',
+Then(
+    'get user detail API should contain valid user details',
     async function () {
         await apiValidator.verifyResponseCode(response, 200);
         await apiValidator.verifyFieldExists(responseBody, 'user');
-    });
+    }
+);
 
-Then('get user detail API should contain required user fields',
+Then(
+    'get user detail API should contain required user fields',
     async function () {
         await apiValidator.verifyObjectFields(responseBody.user, [
             'id',
@@ -98,18 +118,43 @@ Then('get user detail API should contain required user fields',
             'state',
             'city'
         ]);
-    });
+    }
+);
 
-Then('get user detail API response should be received within {int} milliseconds',
+Then(
+    'get user detail API response should be received within {int} milliseconds',
     async function (maxTime) {
         await apiValidator.verifyResponseTime(responseTime, maxTime);
-    });
+    }
+);
 
-Then('get user detail API should return the actual error response',
+Then(
+    'get user detail API should return the actual error response',
     async function () {
-        if (!responseBody.responseCode && !responseBody.message) {
+        if (!responseBody || typeof responseBody !== 'object') {
             throw new Error(
-                `Unexpected error response: ${JSON.stringify(responseBody)}`
+                `Invalid API response: ${JSON.stringify(responseBody)}`
             );
         }
-    });
+
+        if (responseBody.responseCode === 400) {
+            if (
+                typeof responseBody.message !== 'string' ||
+                responseBody.message.trim().length === 0
+            ) {
+                throw new Error(
+                    `Expected a non-empty error message: ${JSON.stringify(responseBody)}`
+                );
+            }
+
+            return;
+        }
+
+        await apiValidator.verifyResponseCode(response, 200);
+        await apiValidator.verifyObjectFields(responseBody.user, [
+            'id',
+            'name',
+            'email'
+        ]);
+    }
+);

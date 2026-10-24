@@ -15,10 +15,8 @@ async function sendCreateAccountRequest(payload) {
     apiClient = new ApiClient();
     await apiClient.init();
 
-    // Register client for cleanup in hooks
-    const world = this;
-    world.apiClients = world.apiClients || [];
-    world.apiClients.push(apiClient);
+    this.apiClients = this.apiClients || [];
+    this.apiClients.push(apiClient);
 
     const startTime = Date.now();
 
@@ -42,16 +40,24 @@ async function sendUserWithoutField(field) {
 }
 
 When('user sends POST request to create account API with unique user data', async function () {
-    accountTestData.currentUser = accountTestData.generateUser();
-    await sendCreateAccountRequest.call(this, accountTestData.currentUser);
+    this.currentUser = accountTestData.generateUser();
+    await sendCreateAccountRequest.call(this, this.currentUser);
 });
 
 When('user sends POST request to create account API with existing user email', async function () {
     const user = accountTestData.generateUser();
 
+    await sendCreateAccountRequest.call(this, user);
+
+    if (responseBody.responseCode !== 201) {
+        throw new Error(
+            `Test user creation failed: ${JSON.stringify(responseBody)}`
+        );
+    }
+
     await sendCreateAccountRequest.call(this, {
-        ...user,
-        email: accountTestData.currentUser.email
+        ...accountTestData.generateUser(),
+        email: user.email
     });
 });
 
@@ -100,24 +106,16 @@ Then('create account API should contain duplicate email message', async function
 });
 
 Then('create account API should contain missing email message', async function () {
-    await apiValidator.verifyMessage(
-        response,
-        'Bad request, email parameter is missing in POST request.'
-    );
+    await apiValidator.verifyMessage(response, 'Bad request, email parameter is missing in POST request.');
 });
 
 Then('create account API should contain missing password message', async function () {
-    await apiValidator.verifyMessage(
-        response,
-        'Bad request, password parameter is missing in POST request.'
-    );
+    await apiValidator.verifyMessage(response, 'Bad request, password parameter is missing in POST request.');
 });
 
 Then('create account API should contain validation failure message', async function () {
     if (responseBody.responseCode !== 400) {
-        throw new Error(
-            `Expected validation responseCode 400 but received ${responseBody.responseCode}`
-        );
+        throw new Error(`Expected validation responseCode 400 but received ${responseBody.responseCode}`);
     }
 });
 
