@@ -17,6 +17,13 @@ const logger = require('../utils/logger');
 const browsers = { chromium, firefox, webkit };
 const browserName = (process.env.BROWSER || 'chromium').toLowerCase();
 
+// CI and Docker must always use headless mode.
+const isCI = process.env.CI === 'true';
+const isDocker = fs.existsSync('/.dockerenv');
+const headless = isCI || isDocker
+    ? true
+    : process.env.HEADLESS !== 'false';
+
 if (!Object.hasOwn(browsers, browserName)) {
     throw new Error(
         `Invalid BROWSER="${browserName}". Use chromium, firefox, or webkit.`
@@ -39,11 +46,13 @@ let browser;
 
 BeforeAll(async function () {
     browser = await browsers[browserName].launch({
-        headless: process.env.HEADLESS !== 'false',
-        slowMo: Number(process.env.SLOW_MO) || 0
+        headless,
+        slowMo: headless ? 0 : Number(process.env.SLOW_MO) || 0
     });
 
-    logger.info(`Browser launched: ${browserName}`);
+    logger.info(
+        `Browser launched: ${browserName} | Headless: ${headless} | CI: ${isCI} | Docker: ${isDocker}`
+    );
 });
 
 Before(async function () {

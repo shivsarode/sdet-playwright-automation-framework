@@ -1,0 +1,9 @@
+node_modules/
+.git/
+.env
+allure-results/
+allure-report/
+logs/
+test-results/
+playwright-report/
+coverage/
