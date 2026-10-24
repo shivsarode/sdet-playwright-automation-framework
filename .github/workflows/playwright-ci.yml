@@ -3,9 +3,11 @@ name: Playwright Cucumber CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -34,25 +36,26 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Install Chromium
+      - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Run tests
+      - name: Run UI and API Tests
         run: npm test
 
-      - name: Generate Allure report
+      - name: Generate Allure HTML Report
         if: always()
+        shell: bash
         run: |
-          if [ -d allure-results ] && [ "$(find allure-results -type f | wc -l)" -gt 0 ]; then
+          if [ -d allure-results ] && [ -n "$(find allure-results -type f -print -quit)" ]; then
             npx allure generate allure-results --clean -o allure-report
           else
-            echo "No Allure results found."
+            echo "No Allure result files found."
           fi
 
-      - name: Upload reports and evidence
+      - name: Upload Reports and Test Evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -60,8 +63,8 @@ jobs:
           path: |
             allure-results/
             allure-report/
-            logs/screenshots/
-            logs/videos/
-            logs/traces/
+            logs/
+            test-results/
+            playwright-report/
           if-no-files-found: warn
           retention-days: 14

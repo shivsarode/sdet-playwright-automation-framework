@@ -25,15 +25,15 @@ pipeline {
             }
         }
 
-        stage('Install Playwright Browser') {
+        stage('Install Playwright Chromium') {
             steps {
                 bat 'npx playwright install chromium'
             }
         }
 
-        stage('Run Automation Tests') {
+        stage('Run UI and API Tests') {
             steps {
-                bat 'set CI=true&& set HEADLESS=true&& npm test'
+                bat 'set "CI=true" && set "HEADLESS=true" && npm test'
             }
         }
     }
@@ -44,22 +44,22 @@ pipeline {
                 int reportStatus = bat(
                     returnStatus: true,
                     script: '''
-                        if exist allure-results (
+                        if exist "allure-results" (
                             call npx allure generate allure-results --clean -o allure-report
                             exit /b %ERRORLEVEL%
                         ) else (
-                            echo No Allure results were generated.
+                            echo No Allure results directory found.
                             exit /b 0
                         )
                     '''
                 )
 
                 if (reportStatus != 0) {
-                    echo "WARNING: Allure report generation failed with exit code ${reportStatus}."
+                    echo "WARNING: Allure report generation failed: ${reportStatus}"
                 }
 
                 archiveArtifacts(
-                    artifacts: 'allure-results/**/*,allure-report/**/*,logs/**/*',
+                    artifacts: 'allure-results/**,allure-report/**,logs/**,test-results/**,playwright-report/**',
                     allowEmptyArchive: true,
                     fingerprint: true
                 )
@@ -67,15 +67,15 @@ pipeline {
         }
 
         success {
-            echo 'All automation tests passed. Available reports and evidence archived.'
+            echo 'SUCCESS: Automation tests passed.'
         }
 
         failure {
-            echo 'Automation failed. Available reports and debugging evidence archived.'
+            echo 'FAILURE: Check console output and archived evidence.'
         }
 
         cleanup {
-            echo 'Jenkins pipeline finished.'
+            echo 'Jenkins pipeline completed.'
         }
     }
 }
