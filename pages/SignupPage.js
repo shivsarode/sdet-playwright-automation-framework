@@ -1,3 +1,4 @@
+
 const elementUtils = require('../utils/elementUtils');
 const waitUtils = require('../utils/waitUtils');
 const assertUtils = require('../utils/assertUtils');
@@ -13,6 +14,7 @@ class SignupPage {
     this.signupBtn = '[data-qa="signup-button"]';
 
     // Account Information
+    this.accountInfoHeading = 'text=Enter Account Information';
     this.gender = '#id_gender1';
     this.password = '#password';
     this.days = '#days';
@@ -38,6 +40,11 @@ class SignupPage {
   }
 
   async openLogin() {
+    await this.page.locator(this.loginLink).waitFor({
+      state: 'visible',
+      timeout: 15000
+    });
+
     await elementUtils.click(this.page, this.loginLink);
   }
 
@@ -45,10 +52,30 @@ class SignupPage {
     await elementUtils.type(this.page, this.signupName, name);
     await elementUtils.type(this.page, this.signupEmail, email);
     await elementUtils.click(this.page, this.signupBtn);
+
+    // Confirm that the account information form has loaded.
+    await this.page.locator(this.password).waitFor({
+      state: 'visible',
+      timeout: 15000
+    });
   }
 
   async fillAccountDetails(password) {
-    await elementUtils.click(this.page, this.gender);
+    const genderLocator = this.page.locator(this.gender);
+
+    // Fail with a clear message if the signup form did not load.
+    await this.page.locator(this.password).waitFor({
+      state: 'visible',
+      timeout: 15000
+    });
+
+    await genderLocator.waitFor({
+      state: 'visible',
+      timeout: 15000
+    });
+
+    await genderLocator.check();
+
     await elementUtils.type(this.page, this.password, password);
 
     await this.page.selectOption(this.days, '10');
@@ -58,7 +85,11 @@ class SignupPage {
     await elementUtils.type(this.page, this.firstName, 'Shivam');
     await elementUtils.type(this.page, this.lastName, 'Sarode');
     await elementUtils.type(this.page, this.address, 'Pune');
-    await this.page.selectOption(this.country, 'India');
+
+    await this.page.selectOption(this.country, {
+      label: 'India'
+    });
+
     await elementUtils.type(this.page, this.state, 'MH');
     await elementUtils.type(this.page, this.city, 'Pune');
     await elementUtils.type(this.page, this.zipcode, '411001');
@@ -68,8 +99,15 @@ class SignupPage {
   }
 
   async verifyAccountCreated() {
-    await waitUtils.waitForElement(this.page, this.accountCreatedText);
-    await assertUtils.verifyVisible(this.page, this.accountCreatedText);
+    await waitUtils.waitForElement(
+      this.page,
+      this.accountCreatedText
+    );
+
+    await assertUtils.verifyVisible(
+      this.page,
+      this.accountCreatedText
+    );
   }
 
   async clickContinue() {
