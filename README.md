@@ -666,7 +666,8 @@ Official references:
 
 ## 👨‍💻 Author
 
-**QA Automation Engineer | SDET**
+**Shivam Sarode**  
+*QA Automation Engineer | SDET*
 
 🔗 **GitHub:** https://github.com/shivsarode/sdet-playwright-automation-framework
 
@@ -679,3 +680,7 @@ Official references:
 A JavaScript-based Playwright automation framework combining UI workflows, API scenarios, Cucumber BDD, Page Object Model, reusable test utilities, reporting configuration and an initial Playwright MCP browser-inspection setup.
 
 **Built around practical automation, readable scenarios, maintainable code and evidence-based test results.**
+
+---
+
+*Made with ❤️ by Shivam Sarode*
