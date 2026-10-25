@@ -97,3 +97,6 @@ allure-report/
 # Playwright reports and test artifacts
 test-results/
 playwright-report/
+
+# Playwright MCP generated logs
+.playwright-mcp/

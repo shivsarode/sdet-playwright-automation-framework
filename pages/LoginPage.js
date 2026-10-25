@@ -11,7 +11,10 @@ class LoginPage {
     this.password = '[data-qa="login-password"]';
     this.loginBtn = '[data-qa="login-button"]';
     this.logoutBtn = 'a[href="/logout"]';
+    this.deleteAccountBtn = 'a[href="/delete_account"]';
     this.loggedText = 'text=Logged in as';
+    this.deleteAccountText = 'text=Account Deleted!';
+    this.deleteAccountMessage = 'text=Your account has been permanently deleted!';
     this.errorText = 'text=Your email or password is incorrect!';
   }
 
@@ -27,6 +30,16 @@ class LoginPage {
 
   async logout() {
     await elementUtils.click(this.page, this.logoutBtn);
+  }
+
+  async deleteAccount() {
+    await elementUtils.click(this.page, this.deleteAccountBtn);
+  }
+
+  async verifyDeleteAccountSuccess() {
+    await waitUtils.waitForElement(this.page, this.deleteAccountText);
+    await assertUtils.verifyVisible(this.page, this.deleteAccountText);
+    await assertUtils.verifyVisible(this.page, this.deleteAccountMessage);
   }
 
   async verifyLoginSuccess() {

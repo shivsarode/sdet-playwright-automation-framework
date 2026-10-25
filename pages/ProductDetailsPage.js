@@ -27,6 +27,7 @@ class ProductDetailsPage {
         this.quantityInput = '#quantity';
         this.addToCartBtn = 'button:has-text("Add to cart")';
         this.viewCartBtn = 'a:has-text("View Cart")';
+        this.cartProductName = '#cart_info_table tbody tr:first-child .cart_description h4 a';
         this.cartQuantity = '#cart_info_table tbody tr:first-child .cart_quantity button';
     }
 
@@ -74,7 +75,22 @@ class ProductDetailsPage {
     }
 
     async getCartQuantity() {
-        return await this.page.locator(this.cartQuantity).innerText();
+        return (await this.page.locator(this.cartQuantity).innerText()).trim();
+    }
+
+    async getCartProductName() {
+        return (await this.page.locator(this.cartProductName).innerText()).trim();
+    }
+
+    async returnToCartIfNeeded() {
+        if (new URL(this.page.url()).pathname !== '/view_cart') {
+            await elementUtils.click(this.page, 'a[href="/view_cart"]');
+        }
+
+        await waitUtils.waitForElement(
+            this.page,
+            '#cart_info_table tbody tr:first-child'
+        );
     }
 
     async getProductDetails() {

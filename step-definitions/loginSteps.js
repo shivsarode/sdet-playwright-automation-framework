@@ -84,6 +84,15 @@ When('user logs in with same credentials', async function () {
     logger.info('Login action completed');
 });
 
+When('user deletes the account', async function () {
+
+    logger.info('Deleting user account');
+
+    await loginPage.deleteAccount();
+
+    logger.info('Account deletion action completed');
+});
+
 Then('user should be logged in successfully', async function () {
 
     logger.info('Verifying successful login');
@@ -91,4 +100,13 @@ Then('user should be logged in successfully', async function () {
     await loginPage.verifyLoginSuccess();
 
     logger.info('LOGIN SUCCESSFUL');
+});
+
+Then('account deletion message should be displayed', async function () {
+
+    logger.info('Verifying account deletion confirmation');
+
+    await loginPage.verifyDeleteAccountSuccess();
+
+    logger.info('ACCOUNT DELETED SUCCESSFULLY');
 });
