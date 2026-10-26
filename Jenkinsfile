@@ -6,6 +6,10 @@ pipeline {
         timestamps()
         timeout(time: 30, unit: 'MINUTES')
         disableConcurrentBuilds()
+        buildDiscarder(logRotator(
+            daysToKeepStr: '7',
+            numToKeepStr: '10'
+        ))
     }
 
     triggers {
@@ -16,6 +20,13 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Verify Node and npm') {
+            steps {
+                bat 'node --version'
+                bat 'npm --version'
             }
         }
 
@@ -41,29 +52,25 @@ pipeline {
     post {
         always {
             script {
-                int reportStatus = bat(
-                    returnStatus: true,
-                    script: '''
-                        if exist "allure-results" (
-                            call npx allure generate allure-results --clean -o allure-report
-                            exit /b %ERRORLEVEL%
-                        ) else (
-                            echo No Allure results directory found.
-                            exit /b 0
-                        )
-                    '''
-                )
+                if (fileExists('allure-results')) {
+                    int reportStatus = bat(
+                        returnStatus: true,
+                        script: 'npx allure generate allure-results --clean -o allure-report'
+                    )
 
-                if (reportStatus != 0) {
-                    echo "WARNING: Allure report generation failed: ${reportStatus}"
+                    if (reportStatus != 0) {
+                        echo "WARNING: Allure report generation failed. Exit code: ${reportStatus}"
+                    }
+                } else {
+                    echo 'No Allure results directory found.'
                 }
-
-                archiveArtifacts(
-                    artifacts: 'allure-results/**,allure-report/**,logs/**,test-results/**,playwright-report/**',
-                    allowEmptyArchive: true,
-                    fingerprint: true
-                )
             }
+
+            archiveArtifacts(
+                artifacts: 'allure-results/**,allure-report/**,logs/**,test-results/**,playwright-report/**',
+                allowEmptyArchive: true,
+                fingerprint: true
+            )
         }
 
         success {
