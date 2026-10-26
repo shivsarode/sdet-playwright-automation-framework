@@ -6,8 +6,7 @@ module.exports = {
             'hooks/**/*.js'
         ],
         format: ['progress'],
-        paths: ['features/**/*.feature'],
-        parallel: 2,
+        parallel: 4,
         publishQuiet: true
     }
 };

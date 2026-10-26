@@ -1,5 +1,6 @@
 Feature: Register and Login Flow
 
+  @smoke
   Scenario: User registration and login flow
 
     Given user opens website

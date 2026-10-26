@@ -1,5 +1,6 @@
 Feature: Cart Persistence After Page Refresh
-
+ 
+  @regression
   Scenario: Product and quantity remain in the cart after refreshing
     Given user launches the application
     When user navigates to the products section
