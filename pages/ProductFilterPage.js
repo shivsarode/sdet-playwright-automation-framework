@@ -18,7 +18,12 @@ class ProductFilterPage {
 
   async openWomenDressCategory() {
     await elementUtils.click(this.page, this.womenCategory);
+    await this.dressCategory.waitFor({
+      state: 'visible',
+      timeout: 15000
+    });
     await elementUtils.click(this.page, this.dressCategory);
+    await this.page.waitForURL('**/category_products/1');
   }
 
   async verifyFilteredProducts() {

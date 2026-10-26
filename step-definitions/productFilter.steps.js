@@ -14,6 +14,12 @@ Given('user opens automation exercise website for product filtering', async func
 
   this.productPage = new ProductPage(this.page);
 
+  // Keep third-party ad interstitials from covering the category controls.
+  await this.page.route(
+    /https:\/\/(?:[^/]*\.)?(?:doubleclick\.net|googlesyndication\.com)\//,
+    route => route.abort()
+  );
+
   await this.productPage.openApp();
 
 });
