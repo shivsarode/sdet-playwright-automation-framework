@@ -26,7 +26,7 @@ class ProductDetailsPage {
         // Quantity & Cart
         this.quantityInput = '#quantity';
         this.addToCartBtn = 'button:has-text("Add to cart")';
-        this.viewCartBtn = 'a:has-text("View Cart")';
+        this.viewCartBtn = '.modal.show a[href="/view_cart"]';
         this.cartProductName = '#cart_info_table tbody tr:first-child .cart_description h4 a';
         this.cartQuantity = '#cart_info_table tbody tr:first-child .cart_quantity button';
     }
