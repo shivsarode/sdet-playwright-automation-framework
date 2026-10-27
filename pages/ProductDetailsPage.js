@@ -70,9 +70,15 @@ class ProductDetailsPage {
     }
 
     async openCart() {
-        await elementUtils.click(this.page, this.viewCartBtn);
-        await waitUtils.waitForElement(this.page, 'text=Shopping Cart');
-    }
+    const viewCart = await elementUtils.getVisibleLocator(
+        this.page,
+        this.viewCartBtn,
+        ['a[href="/view_cart"]:visible']
+    );
+
+    await viewCart.click();
+    await waitUtils.waitForElement(this.page, 'text=Shopping Cart');
+}
 
     async getCartQuantity() {
         return (await this.page.locator(this.cartQuantity).innerText()).trim();
