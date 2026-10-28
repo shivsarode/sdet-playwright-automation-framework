@@ -28,9 +28,12 @@ class ProductPage {
         });
     }
 
-    async goToProducts() {
-        await elementUtils.click(this.page, this.productsBtn);
-    }
+  async goToProducts() {
+    await elementUtils.click(
+        this.page,
+        'a[href="/products"]'
+    );
+}
     
 async addFirstProduct() {
     await this.firstProductAddBtn.click({ force: true });

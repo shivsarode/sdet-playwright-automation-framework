@@ -19,7 +19,15 @@ class LoginPage {
   }
 
   async openLogin() {
-    await elementUtils.click(this.page, this.loginLink);
+    await this.page.goto(`${this.page.url().split('/').slice(0, 3).join('/')}/login`, {
+      waitUntil: 'domcontentloaded',
+      timeout: 60000
+    });
+
+    await this.page.locator(this.email).waitFor({
+      state: 'visible',
+      timeout: 15000
+    });
   }
 
   async login(email, password) {
