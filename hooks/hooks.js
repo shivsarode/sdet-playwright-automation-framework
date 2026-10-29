@@ -17,7 +17,6 @@ const logger = require('../utils/logger');
 const browsers = { chromium, firefox, webkit };
 const browserName = (process.env.BROWSER || 'chromium').toLowerCase();
 
-// CI and Docker must always use headless mode.
 const isCI = process.env.CI === 'true';
 const isDocker = fs.existsSync('/.dockerenv');
 const headless = isCI || isDocker
@@ -30,11 +29,13 @@ if (!Object.hasOwn(browsers, browserName)) {
     );
 }
 
-const videoDir = path.resolve('logs/videos');
-const traceDir = path.resolve('logs/traces');
-const screenshotDir = path.resolve('logs/screenshots');
+const artifactDirs = {
+    videos: path.resolve('logs/videos'),
+    traces: path.resolve('logs/traces'),
+    screenshots: path.resolve('logs/screenshots')
+};
 
-[videoDir, traceDir, screenshotDir].forEach((dir) => {
+Object.values(artifactDirs).forEach((dir) => {
     fs.mkdirSync(dir, { recursive: true });
 });
 
@@ -61,7 +62,7 @@ Before(async function () {
 
     this.context = await browser.newContext({
         ...(videoEnabled && {
-            recordVideo: { dir: videoDir }
+            recordVideo: { dir: artifactDirs.videos }
         })
     });
 
@@ -94,7 +95,10 @@ After(async function (scenario) {
     try {
         if (failed && this.page) {
             await this.page.screenshot({
-                path: path.join(screenshotDir, `${artifactId}.png`),
+                path: path.join(
+                    artifactDirs.screenshots,
+                    `${artifactId}.png`
+                ),
                 fullPage: true
             });
         }
@@ -106,7 +110,10 @@ After(async function (scenario) {
         if (this.traceStarted && this.context) {
             if (failed) {
                 await this.context.tracing.stop({
-                    path: path.join(traceDir, `${artifactId}.zip`)
+                    path: path.join(
+                        artifactDirs.traces,
+                        `${artifactId}.zip`
+                    )
                 });
             } else {
                 await this.context.tracing.stop();
@@ -137,16 +144,17 @@ After(async function (scenario) {
 
             if (shouldKeep) {
                 const destinationPath = path.join(
-                    videoDir,
+                    artifactDirs.videos,
                     `${artifactId}.webm`
                 );
 
-                if (sourcePath !== destinationPath) {
-                    await video.saveAs(destinationPath);
+                await video.saveAs(destinationPath);
 
-                    if (fs.existsSync(sourcePath)) {
-                        fs.unlinkSync(sourcePath);
-                    }
+                if (
+                    sourcePath !== destinationPath &&
+                    fs.existsSync(sourcePath)
+                ) {
+                    fs.unlinkSync(sourcePath);
                 }
             } else if (fs.existsSync(sourcePath)) {
                 fs.unlinkSync(sourcePath);
@@ -172,6 +180,12 @@ After(async function (scenario) {
 });
 
 AfterAll(async function () {
-    await browser?.close();
-    logger.info('Browser closed');
+    try {
+        await browser?.close();
+    } catch (error) {
+        logger.error(`Browser shutdown failed: ${error.message}`);
+    } finally {
+        browser = null;
+        logger.info('Browser closed');
+    }
 });
